@@ -1,44 +1,43 @@
-# For more information about using CMake with Android Studio, read the
-# documentation: https://d.android.com/studio/projects/add-native-code.html
-
-# Sets the minimum version of CMake required to build the native library.
-
 cmake_minimum_required(VERSION 3.4.1)
 
-# Creates and names a library, sets it as either STATIC
-# or SHARED, and provides the relative paths to its source code.
-# You can define multiple libraries, and CMake builds them for you.
-# Gradle automatically packages shared libraries with your APK.
+### INCLUDE OBOE LIBRARY ###
 
-add_library( # Sets the name of the library.
-             native-lib
+# Set the path to the Oboe library directory
+set (OBOE_DIR ../../../../../oboe)
 
-             # Sets the library as a shared library.
-             SHARED
+# Add the Oboe library as a subproject. Since Oboe is an out-of-tree source library we must also
+# specify a binary directory
+add_subdirectory(${OBOE_DIR} ./oboe-bin)
 
-             # Provides a relative path to your source file(s).
-             native-lib.cpp )
+# Include the Oboe headers and shared sample code
+include_directories(${OBOE_DIR}/include ${OBOE_DIR}/samples/shared)
 
-# Searches for a specified prebuilt library and stores the path as a
-# variable. Because CMake includes system libraries in the search path by
-# default, you only need to specify the name of the public NDK library
-# you want to add. CMake verifies that the library exists before
-# completing its build.
+# Debug utilities
+set (DEBUG_UTILS_PATH "${OBOE_DIR}/samples/debug-utils")
+set (DEBUG_UTILS_SOURCES ${DEBUG_UTILS_PATH}/trace.cpp)
+include_directories(${DEBUG_UTILS_PATH})
 
-find_library( # Sets the name of the path variable.
-              log-lib
 
-              # Specifies the name of the NDK library that
-              # you want CMake to locate.
-              log )
+### END OBOE INCLUDE SECTION ###
 
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in this
-# build script, prebuilt third-party libraries, or system libraries.
 
-target_link_libraries( # Specifies the target library.
-                       native-lib
+# App specific sources
+set (APP_SOURCES
+        jni_bridge.cpp
+        LearnEqEngine.cpp
+        SoundGenerator.cpp
+        LatencyTuningCallback.cpp
+        )
 
-                       # Links the target library to the log library
-                       # included in the NDK.
-                       ${log-lib} )
+# Build the libhello-oboe library
+add_library(hello-oboe SHARED
+        ${DEBUG_UTILS_SOURCES}
+        ${APP_SOURCES}
+        )
+
+# Specify the libraries needed for hello-oboe
+target_link_libraries(hello-oboe android log oboe)
+
+# Enable optimization flags: if having problems with source level debugging,
+# disable -Ofast ( and debug ), re-enable after done debugging.
+target_compile_options(hello-oboe PRIVATE -Wall -Werror "$<$<CONFIG:RELEASE>:-Ofast>")

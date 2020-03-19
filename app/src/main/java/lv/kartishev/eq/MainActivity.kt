@@ -14,6 +14,18 @@ class MainActivity : AppCompatActivity() {
     val context: Context = this;
     var playing: Boolean = false;
 
+    override fun onResume() {
+        super.onResume()
+
+        PlaybackEngine.create(this)
+    }
+
+    override fun onPause() {
+
+        PlaybackEngine.delete()
+        super.onPause()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,20 +45,16 @@ class MainActivity : AppCompatActivity() {
 
         playButton.setOnClickListener { v: View ->
             if (playing) {
-                if (mp.isPlaying) {
-                    mp.stop()
-                    mp.release()
-                    mp = MediaPlayer.create(context, R.raw.firebird)
-                }
+                PlaybackEngine.setToneOn(false)
 
                 playButton.setText(R.string.button_play)
 
                 playing = false
             } else {
 
-                mp.start()
+                PlaybackEngine.setToneOn(true)
 
-                playButton.setText(stringFromJNI())
+                playButton.setText(R.string.button_stop)
 
                 playing = true
             }
@@ -57,12 +65,12 @@ class MainActivity : AppCompatActivity() {
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    external fun stringFromJNI(): String
+
 
     companion object {
         // Used to load the 'native-lib' library on application startup.
         init {
-            System.loadLibrary("native-lib")
+            System.loadLibrary("hello-oboe")
         }
     }
 }
