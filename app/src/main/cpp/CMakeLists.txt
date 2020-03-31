@@ -25,18 +25,23 @@ include_directories(${DEBUG_UTILS_PATH})
 set (APP_SOURCES
         jni_bridge.cpp
         LearnEqEngine.cpp
-        SoundGenerator.cpp
-        LatencyTuningCallback.cpp
+        asset/AAssetDataSource.cpp
+        player/Player.cpp
+        asset/NDKExtractor.cpp
         )
 
 # Build the libhello-oboe library
 add_library(hello-oboe SHARED
         ${DEBUG_UTILS_SOURCES}
         ${APP_SOURCES}
+        util/logging.h
         )
 
+MESSAGE(STATUS "Using NDK media extractor")
+target_sources( hello-oboe PRIVATE asset/NDKExtractor.cpp)
+
 # Specify the libraries needed for hello-oboe
-target_link_libraries(hello-oboe android log oboe)
+target_link_libraries(hello-oboe android log oboe mediandk)
 
 # Enable optimization flags: if having problems with source level debugging,
 # disable -Ofast ( and debug ), re-enable after done debugging.

@@ -18,6 +18,7 @@
 #include <oboe/Oboe.h>
 #include "LearnEqEngine.h"
 #include "logging_macros.h"
+#include <android/asset_manager_jni.h>
 
 extern "C" {
 
@@ -29,9 +30,16 @@ extern "C" {
 JNIEXPORT jlong JNICALL
 Java_lv_kartishev_eq_PlaybackEngine_native_1createEngine(
         JNIEnv *env,
-        jclass /*unused*/) {
+        jclass /*unused*/,
+        jobject jAssetManager) {
     // We use std::nothrow so `new` returns a nullptr if the engine creation fails
-    LearnEqEngine *engine = new(std::nothrow) LearnEqEngine();
+
+    AAssetManager *assetManager = AAssetManager_fromJava(env, jAssetManager);
+    if (assetManager == nullptr) {
+        LOGE("Could not obtain the AAssetManager");
+    }
+
+    LearnEqEngine *engine = new(std::nothrow) LearnEqEngine(*assetManager);
     return reinterpret_cast<jlong>(engine);
 }
 
@@ -60,94 +68,18 @@ Java_lv_kartishev_eq_PlaybackEngine_native_1setToneOn(
 }
 
 JNIEXPORT void JNICALL
-Java_lv_kartishev_eq_PlaybackEngine_native_1setAudioApi(
-        JNIEnv *env,
-        jclass type,
-        jlong engineHandle,
-        jint audioApi) {
-
-    LearnEqEngine *engine = reinterpret_cast<LearnEqEngine*>(engineHandle);
-    if (engine == nullptr) {
-        LOGE("Engine handle is invalid, call createHandle() to create a new one");
-        return;
-    }
-
-    oboe::AudioApi api = static_cast<oboe::AudioApi>(audioApi);
-    engine->setAudioApi(api);
-}
-
-JNIEXPORT void JNICALL
-Java_lv_kartishev_eq_PlaybackEngine_native_1setAudioDeviceId(
+Java_lv_kartishev_eq_PlaybackEngine_native_1setEQ(
         JNIEnv *env,
         jclass,
         jlong engineHandle,
-        jint deviceId) {
+        jboolean isEqOn) {
 
-    LearnEqEngine *engine = reinterpret_cast<LearnEqEngine*>(engineHandle);
+    LearnEqEngine *engine = reinterpret_cast<LearnEqEngine *>(engineHandle);
     if (engine == nullptr) {
         LOGE("Engine handle is invalid, call createHandle() to create a new one");
         return;
     }
-    engine->setDeviceId(deviceId);
-}
-
-JNIEXPORT void JNICALL
-Java_lv_kartishev_eq_PlaybackEngine_native_1setChannelCount(
-        JNIEnv *env,
-        jclass type,
-        jlong engineHandle,
-        jint channelCount) {
-
-    LearnEqEngine *engine = reinterpret_cast<LearnEqEngine*>(engineHandle);
-    if (engine == nullptr) {
-        LOGE("Engine handle is invalid, call createHandle() to create a new one");
-        return;
-    }
-    engine->setChannelCount(channelCount);
-}
-
-JNIEXPORT void JNICALL
-Java_lv_kartishev_eq_PlaybackEngine_native_1setBufferSizeInBursts(
-        JNIEnv *env,
-        jclass,
-        jlong engineHandle,
-        jint bufferSizeInBursts) {
-
-    LearnEqEngine *engine = reinterpret_cast<LearnEqEngine*>(engineHandle);
-    if (engine == nullptr) {
-        LOGE("Engine handle is invalid, call createHandle() to create a new one");
-        return;
-    }
-    engine->setBufferSizeInBursts(bufferSizeInBursts);
-}
-
-
-JNIEXPORT jdouble JNICALL
-Java_lv_kartishev_eq_PlaybackEngine_native_1getCurrentOutputLatencyMillis(
-        JNIEnv *env,
-        jclass,
-        jlong engineHandle) {
-
-    LearnEqEngine *engine = reinterpret_cast<LearnEqEngine*>(engineHandle);
-    if (engine == nullptr) {
-        LOGE("Engine is null, you must call createEngine before calling this method");
-        return static_cast<jdouble>(-1.0);
-    }
-    return static_cast<jdouble>(engine->getCurrentOutputLatencyMillis());
-}
-
-JNIEXPORT jboolean JNICALL
-Java_lv_kartishev_eq_PlaybackEngine_native_1isLatencyDetectionSupported(
-        JNIEnv *env,
-        jclass type,
-        jlong engineHandle) {
-
-    LearnEqEngine *engine = reinterpret_cast<LearnEqEngine*>(engineHandle);
-    if (engine == nullptr) {
-        LOGE("Engine is null, you must call createEngine before calling this method");
-        return JNI_FALSE;
-    }
-    return (engine->isLatencyDetectionSupported() ? JNI_TRUE : JNI_FALSE);
+    engine->setEQ(isEqOn);
 }
 
 JNIEXPORT void JNICALL

@@ -30,17 +30,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var mp : MediaPlayer = MediaPlayer.create(context, R.raw.firebird);
-
         val playButton: Button = findViewById(R.id.play_button)
         val eqOnButton: Button = findViewById(R.id.eq_on_button)
         val eqOffButton: Button = findViewById(R.id.eq_off_button)
 
-        var eq: Equalizer
-
         eqOnButton.setOnClickListener { v: View ->
-            eq = Equalizer(0, mp.audioSessionId)
+            PlaybackEngine.setEQ(true);
+        }
 
+        eqOffButton.setOnClickListener { v: View ->
+            PlaybackEngine.setEQ(false);
         }
 
         playButton.setOnClickListener { v: View ->

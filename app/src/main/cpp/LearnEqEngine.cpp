@@ -21,7 +21,8 @@
 #include <Oscillator.h>
 
 #include "LearnEqEngine.h"
-#include "SoundGenerator.h"
+#include "util/constants.h"
+
 
 
 /**
@@ -34,101 +35,8 @@
  * - Calculating the audio latency of the stream
  *
  */
-LearnEqEngine::LearnEqEngine(): mLatencyCallback(std::make_unique<LatencyTuningCallback>(*this)) {
+LearnEqEngine::LearnEqEngine(AAssetManager &assetManager): mAssetManager(assetManager), mLatencyCallback(std::make_unique<DefaultAudioStreamCallback>(*this)) {
     start();
-    updateLatencyDetection();
-}
-
-double LearnEqEngine::getCurrentOutputLatencyMillis() {
-    if (!mIsLatencyDetectionSupported) return -1;
-    // Get the time that a known audio frame was presented for playing
-    auto result = mStream->getTimestamp(CLOCK_MONOTONIC);
-    double outputLatencyMillis = -1;
-    const int64_t kNanosPerMillisecond = 1000000;
-    if (result == oboe::Result::OK) {
-        oboe::FrameTimestamp playedFrame = result.value();
-        // Get the write index for the next audio frame
-        int64_t writeIndex = mStream->getFramesWritten();
-        // Calculate the number of frames between our known frame and the write index
-        int64_t frameIndexDelta = writeIndex - playedFrame.position;
-        // Calculate the time which the next frame will be presented
-        int64_t frameTimeDelta = (frameIndexDelta * oboe::kNanosPerSecond) /  (mStream->getSampleRate());
-        int64_t nextFramePresentationTime = playedFrame.timestamp + frameTimeDelta;
-        // Assume that the next frame will be written at the current time
-        using namespace std::chrono;
-        int64_t nextFrameWriteTime =
-                duration_cast<nanoseconds>(steady_clock::now().time_since_epoch()).count();
-        // Calculate the latency
-        outputLatencyMillis = static_cast<double>(nextFramePresentationTime - nextFrameWriteTime)
-                         / kNanosPerMillisecond;
-    } else {
-        LOGE("Error calculating latency: %s", oboe::convertToText(result.error()));
-    }
-    return outputLatencyMillis;
-}
-
-void LearnEqEngine::setBufferSizeInBursts(int32_t numBursts) {
-    mIsLatencyDetectionSupported = false;
-    mLatencyCallback->setBufferTuneEnabled(numBursts == kBufferSizeAutomatic);
-    auto result = mStream->setBufferSizeInFrames(
-            numBursts * mStream->getFramesPerBurst());
-    updateLatencyDetection();
-    if (result) {
-        LOGD("Buffer size successfully changed to %d", result.value());
-    } else {
-        LOGW("Buffer size could not be changed, %d", result.error());
-    }
-}
-
-void LearnEqEngine::setAudioApi(oboe::AudioApi audioApi) {
-    mIsLatencyDetectionSupported = false;
-    createPlaybackStream(*oboe::AudioStreamBuilder(*mStream)
-            .setAudioApi(audioApi));
-    updateAudioSource();
-    LOGD("AudioAPI is now %d", mStream->getAudioApi());
-}
-
-void LearnEqEngine::setChannelCount(int channelCount) {
-    mIsLatencyDetectionSupported = false;
-    createPlaybackStream(*oboe::AudioStreamBuilder(*mStream)
-            .setChannelCount(channelCount));
-    updateAudioSource();
-    LOGD("Channel count is now %d", mStream->getChannelCount());
-}
-
-void LearnEqEngine::setDeviceId(int32_t deviceId) {
-    mIsLatencyDetectionSupported = false;
-    createPlaybackStream(*oboe::AudioStreamBuilder(*mStream).
-            setDeviceId(deviceId));
-    updateAudioSource();
-    LOGD("Device ID is now %d", mStream->getDeviceId());
-}
-
-bool LearnEqEngine::isLatencyDetectionSupported() {
-    return mIsLatencyDetectionSupported;
-}
-
-void LearnEqEngine::updateLatencyDetection() {
-    mIsLatencyDetectionSupported = (mStream->getTimestamp((CLOCK_MONOTONIC)) !=
-                                    oboe::Result::ErrorUnimplemented);
-}
-
-void LearnEqEngine::tap(bool isDown) {
-    mAudioSource->tap(isDown);
-}
-
-void LearnEqEngine::updateAudioSource() {
-    *mAudioSource = SoundGenerator(mStream->getSampleRate(), mStream->getChannelCount());
-    mStream->start();
-    updateLatencyDetection();
-}
-
-oboe::Result LearnEqEngine::createPlaybackStream(oboe::AudioStreamBuilder builder) {
-    return builder.setSharingMode(oboe::SharingMode::Exclusive)
-        ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
-        ->setFormat(oboe::AudioFormat::Float)
-        ->setCallback(mLatencyCallback.get())
-        ->openManagedStream(mStream);
 }
 
 void LearnEqEngine::restart() {
@@ -137,12 +45,46 @@ void LearnEqEngine::restart() {
 
 void LearnEqEngine::start() {
     auto result = createPlaybackStream(oboe::AudioStreamBuilder());
+
+    // Set the properties of our audio source(s) to match that of our audio stream
+    AudioProperties targetProperties {
+            .channelCount = mStream->getChannelCount(),
+            .sampleRate = mStream->getSampleRate()
+    };
+
+    // Create a data source and player for our backing track
+    std::shared_ptr<AAssetDataSource> backingTrackSource {
+            AAssetDataSource::newFromCompressedAsset(mAssetManager, kBackingTrackFilename, targetProperties)
+    };
+    if (backingTrackSource == nullptr){
+        LOGE("Could not load source data for backing track");
+    }
+
+    mBackingTrack = std::make_shared<Player>(backingTrackSource);
+
+    mBackingTrack->setLooping(true);
+
     if (result == oboe::Result::OK){
-        mAudioSource =  std::make_shared<SoundGenerator>(mStream->getSampleRate(), mStream->getChannelCount());
-        mLatencyCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(mAudioSource));
+        mLatencyCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(mBackingTrack));
         mStream->start();
     } else {
         LOGE("Error creating playback stream. Error: %s", oboe::convertToText(result));
     }
+}
+
+void LearnEqEngine::tap(bool isDown) {
+    mBackingTrack->setPlaying(isDown);
+}
+
+void LearnEqEngine::setEQ(bool isEqOn) {
+    mBackingTrack->setEQ(isEqOn);
+}
+
+oboe::Result LearnEqEngine::createPlaybackStream(oboe::AudioStreamBuilder builder) {
+    return builder.setSharingMode(oboe::SharingMode::Exclusive)
+            ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
+            ->setFormat(oboe::AudioFormat::Float)
+            ->setCallback(mLatencyCallback.get())
+            ->openManagedStream(mStream);
 }
 

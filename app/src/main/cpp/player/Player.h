@@ -1,0 +1,84 @@
+/*
+ * Copyright 2018 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#ifndef RHYTHMGAME_SOUNDRECORDING_H
+#define RHYTHMGAME_SOUNDRECORDING_H
+
+#include <cstdint>
+#include <array>
+
+#include <chrono>
+#include <memory>
+#include <atomic>
+
+#include <android/asset_manager.h>
+#include <IRenderableAudio.h>
+
+#include "../asset/DataSource.h"
+
+class Player : public IRenderableAudio{
+
+public:
+    /**
+     * Construct a new Player from the given DataSource. Players can share the same data source.
+     * For example, you could play two identical sounds concurrently by creating 2 Players with the
+     * same data source.
+     *
+     * @param source
+     */
+    Player(std::shared_ptr<DataSource> source)
+        : mSource(source)
+    {
+        sample_rate = mSource->getProperties().sampleRate;
+        reconfigure(1000.0);
+    };
+
+    void renderAudio(float *targetData, int32_t numFrames);
+    void resetPlayHead() { mReadFrameIndex = 0; };
+    void setPlaying(bool isPlaying) { mIsPlaying = isPlaying; resetPlayHead(); };
+    void setEQ(bool isEqOn) { mEqOn = isEqOn; };
+    void setLooping(bool isLooping) { mIsLooping = isLooping; };
+
+private:
+    int32_t mReadFrameIndex = 0;
+    std::atomic<bool> mIsPlaying { false };
+    std::atomic<bool> mEqOn { false };
+    std::atomic<bool> mIsLooping { false };
+    std::shared_ptr<DataSource> mSource;
+
+    float bufHigh0;
+    float bufHigh1;
+
+/*    const int LOWPASS = 0;
+    const int HIGHPASS = 1;
+    const int BANDPASS = 2;
+    const int PEAK = 3;
+    const int NOTCH = 4;
+    const int LOWSHELF = 5;
+    const int HIGHSHELF = 6;*/
+    float a0, a1, a2, b0, b1, b2;
+    float x1, x2, y, y1, y2;
+    float gain_abs;
+    int type = 3;
+    float center_freq, Q = 1.0, gainDB = 6.0;
+    int32_t sample_rate;
+
+    void renderSilence(float*, int32_t);
+    void reconfigure(float cf);
+
+};
+
+#endif //RHYTHMGAME_SOUNDRECORDING_H
