@@ -43,37 +43,31 @@ public:
         : mSource(source)
     {
         sample_rate = mSource->getProperties().sampleRate;
-        reconfigure(1000.0);
+        reconfigure(freq[rand() % 23]);
     };
 
     void renderAudio(float *targetData, int32_t numFrames);
     void resetPlayHead() { mReadFrameIndex = 0; };
     void setPlaying(bool isPlaying) { mIsPlaying = isPlaying; resetPlayHead(); };
     void setEQ(bool isEqOn) { mEqOn = isEqOn; };
+    void changeEQ() { reconfigure(freq[rand() % 23]); };
     void setLooping(bool isLooping) { mIsLooping = isLooping; };
+    float getFrequency() {
+        return center_freq;
+    }
 
 private:
     int32_t mReadFrameIndex = 0;
     std::atomic<bool> mIsPlaying { false };
-    std::atomic<bool> mEqOn { false };
-    std::atomic<bool> mIsLooping { false };
+    std::atomic<bool> mEqOn { true };
+    std::atomic<bool> mIsLooping { true };
     std::shared_ptr<DataSource> mSource;
 
-    float bufHigh0;
-    float bufHigh1;
-
-/*    const int LOWPASS = 0;
-    const int HIGHPASS = 1;
-    const int BANDPASS = 2;
-    const int PEAK = 3;
-    const int NOTCH = 4;
-    const int LOWSHELF = 5;
-    const int HIGHSHELF = 6;*/
     float a0, a1, a2, b0, b1, b2;
     float x1, x2, y, y1, y2;
     float gain_abs;
-    int type = 3;
-    float center_freq, Q = 1.0, gainDB = 6.0;
+    eqType type = PEAK;
+    float center_freq, Q = 1.0, gainDB = 12.0;
     int32_t sample_rate;
 
     void renderSilence(float*, int32_t);

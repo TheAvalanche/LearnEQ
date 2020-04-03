@@ -60,12 +60,12 @@ void LearnEqEngine::start() {
         LOGE("Could not load source data for backing track");
     }
 
-    mBackingTrack = std::make_shared<Player>(backingTrackSource);
+    player = std::make_shared<Player>(backingTrackSource);
 
-    mBackingTrack->setLooping(true);
+    player->setLooping(true);
 
     if (result == oboe::Result::OK){
-        mLatencyCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(mBackingTrack));
+        mLatencyCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(player));
         mStream->start();
     } else {
         LOGE("Error creating playback stream. Error: %s", oboe::convertToText(result));
@@ -73,11 +73,19 @@ void LearnEqEngine::start() {
 }
 
 void LearnEqEngine::tap(bool isDown) {
-    mBackingTrack->setPlaying(isDown);
+    player->setPlaying(isDown);
 }
 
 void LearnEqEngine::setEQ(bool isEqOn) {
-    mBackingTrack->setEQ(isEqOn);
+    player->setEQ(isEqOn);
+}
+
+void LearnEqEngine::changeEQ() {
+    player->changeEQ();
+}
+
+float LearnEqEngine::getFrequency() {
+    return player->getFrequency();
 }
 
 oboe::Result LearnEqEngine::createPlaybackStream(oboe::AudioStreamBuilder builder) {

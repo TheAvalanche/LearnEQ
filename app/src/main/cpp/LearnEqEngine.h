@@ -37,6 +37,10 @@ public:
 
     void setEQ(bool isEqOn);
 
+    void changeEQ();
+
+    float getFrequency();
+
     // From IRestartable
     void restart() override;
 
@@ -44,7 +48,7 @@ private:
     AAssetManager& mAssetManager;
     oboe::ManagedStream mStream;
     std::unique_ptr<DefaultAudioStreamCallback> mLatencyCallback;
-    std::shared_ptr<Player> mBackingTrack;
+    std::shared_ptr<Player> player;
 
     oboe::Result createPlaybackStream(oboe::AudioStreamBuilder builder);
     void start();

@@ -34,18 +34,10 @@ void Player::renderAudio(float *targetData, int32_t numFrames){
             mIsPlaying = false;
         }
 
-        float cutoff = 0.5;
-        float bufPos0 = bufHigh0;
-        float bufPos1 = bufHigh1;
-
         for (int i = 0; i < framesToRenderFromData; ++i) {
-            bufHigh0 = bufPos0;
-            bufHigh1 = bufPos1;
             for (int j = 0; j < properties.channelCount; ++j) {
 
                 const float in = data[(mReadFrameIndex * properties.channelCount) + j];
-                bufHigh0 += cutoff * (in - bufHigh0);
-                bufHigh1 += cutoff * (bufHigh0 - bufHigh1);
 
                 y = b0 * in + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2;
                 x2 = x1;
@@ -84,7 +76,7 @@ void Player::reconfigure(float cf) {
     float alpha = sn / (2 * Q);
     float beta = sqrt(gain_abs + gain_abs);
     switch (type) {
-        case 2:
+        case BANDPASS:
             b0 = alpha;
             b1 = 0;
             b2 = -alpha;
@@ -92,7 +84,7 @@ void Player::reconfigure(float cf) {
             a1 = -2 * cs;
             a2 = 1 - alpha;
             break;
-        case 0:
+        case LOWPASS:
             b0 = (1 - cs) / 2;
             b1 = 1 - cs;
             b2 = (1 - cs) / 2;
@@ -100,7 +92,7 @@ void Player::reconfigure(float cf) {
             a1 = -2 * cs;
             a2 = 1 - alpha;
             break;
-        case 1:
+        case HIGHPASS:
             b0 = (1 + cs) / 2;
             b1 = -(1 + cs);
             b2 = (1 + cs) / 2;
@@ -108,7 +100,7 @@ void Player::reconfigure(float cf) {
             a1 = -2 * cs;
             a2 = 1 - alpha;
             break;
-        case 4:
+        case NOTCH:
             b0 = 1;
             b1 = -2 * cs;
             b2 = 1;
@@ -116,7 +108,7 @@ void Player::reconfigure(float cf) {
             a1 = -2 * cs;
             a2 = 1 - alpha;
             break;
-        case 3:
+        case PEAK:
             b0 = 1 + (alpha * gain_abs);
             b1 = -2 * cs;
             b2 = 1 - (alpha * gain_abs);
@@ -124,7 +116,7 @@ void Player::reconfigure(float cf) {
             a1 = -2 * cs;
             a2 = 1 - (alpha / gain_abs);
             break;
-        case 5:
+        case LOWSHELF:
             b0 = gain_abs * ((gain_abs + 1) - (gain_abs - 1) * cs + beta * sn);
             b1 = 2 * gain_abs * ((gain_abs - 1) - (gain_abs + 1) * cs);
             b2 = gain_abs * ((gain_abs + 1) - (gain_abs - 1) * cs - beta * sn);
@@ -132,7 +124,7 @@ void Player::reconfigure(float cf) {
             a1 = -2 * ((gain_abs - 1) + (gain_abs + 1) * cs);
             a2 = (gain_abs + 1) + (gain_abs - 1) * cs - beta * sn;
             break;
-        case 6:
+        case HIGHSHELF:
             b0 = gain_abs * ((gain_abs + 1) + (gain_abs - 1) * cs + beta * sn);
             b1 = -2 * gain_abs * ((gain_abs - 1) + (gain_abs + 1) * cs);
             b2 = gain_abs * ((gain_abs + 1) + (gain_abs - 1) * cs - beta * sn);

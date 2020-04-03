@@ -6,6 +6,8 @@ import android.media.audiofx.Equalizer
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 
 
@@ -31,18 +33,60 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val playButton: Button = findViewById(R.id.play_button)
-        val eqOnButton: Button = findViewById(R.id.eq_on_button)
-        val eqOffButton: Button = findViewById(R.id.eq_off_button)
+        val eqButton: ToggleButton = findViewById(R.id.eq_button)
+        val bassButton: Button = findViewById(R.id.bass_button)
+        val midButton: Button = findViewById(R.id.mid_button)
+        val highButton: Button = findViewById(R.id.high_button)
 
-        eqOnButton.setOnClickListener { v: View ->
-            PlaybackEngine.setEQ(true);
+        val resultView: TextView = findViewById(R.id.result)
+
+        bassButton.setOnClickListener { v: View ->
+            val frequency = PlaybackEngine.getFrequency()
+
+            if (frequency >= 50 && frequency <= 250) {
+                resultView.setText("Match")
+                v.postDelayed({
+                    PlaybackEngine.changeEQ()
+                    resultView.setText("")
+                }, 1000)
+            } else {
+                resultView.setText("Fail")
+            }
         }
 
-        eqOffButton.setOnClickListener { v: View ->
-            PlaybackEngine.setEQ(false);
+        midButton.setOnClickListener { v: View ->
+            val frequency = PlaybackEngine.getFrequency()
+
+            if (frequency >= 250 && frequency <= 4000) {
+                resultView.setText("Match")
+                v.postDelayed({
+                    PlaybackEngine.changeEQ()
+                    resultView.setText("")
+                }, 1000)
+            } else {
+                resultView.setText("Fail")
+            }
         }
 
-        playButton.setOnClickListener { v: View ->
+        highButton.setOnClickListener { v: View ->
+            val frequency = PlaybackEngine.getFrequency()
+
+            if (frequency >= 4000 && frequency <= 20000) {
+                resultView.setText("Match")
+                v.postDelayed({
+                    PlaybackEngine.changeEQ()
+                    resultView.setText("")
+                }, 1000)
+            } else {
+                resultView.setText("Fail")
+            }
+        }
+
+        eqButton.setOnCheckedChangeListener { _, isChecked ->
+            PlaybackEngine.setEQ(isChecked)
+        }
+
+        playButton.setOnClickListener {
             if (playing) {
                 PlaybackEngine.setToneOn(false)
 
@@ -57,19 +101,6 @@ class MainActivity : AppCompatActivity() {
 
                 playing = true
             }
-        }
-    }
-
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-
-
-    companion object {
-        // Used to load the 'native-lib' library on application startup.
-        init {
-            System.loadLibrary("hello-oboe")
         }
     }
 }

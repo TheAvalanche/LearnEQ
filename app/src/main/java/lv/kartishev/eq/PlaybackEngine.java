@@ -65,10 +65,22 @@ public class PlaybackEngine {
         if (mEngineHandle != 0) native_setEQ(mEngineHandle, isEqOn);
     }
 
+    static void changeEQ(){
+        if (mEngineHandle != 0) native_changeEQ(mEngineHandle);
+    }
+
+    static float getFrequency(){
+        if (mEngineHandle != 0) return native_getFrequency(mEngineHandle);
+
+        return 0.0f;
+    }
+
     // Native methods
     private static native long native_createEngine(AssetManager assetManager);
     private static native void native_deleteEngine(long engineHandle);
     private static native void native_setToneOn(long engineHandle, boolean isToneOn);
+    private static native float native_getFrequency(long engineHandle);
     private static native void native_setEQ(long engineHandle, boolean isEqOn);
+    private static native void native_changeEQ(long engineHandle);
     private static native void native_setDefaultStreamValues(int sampleRate, int framesPerBurst);
 }
