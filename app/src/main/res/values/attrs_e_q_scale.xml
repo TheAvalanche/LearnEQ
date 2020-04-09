@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="EQScale">
+        <attr name="scaleColor" format="color" />
+        <attr name="cursorColor" format="color" />
+    </declare-styleable>
+</resources>

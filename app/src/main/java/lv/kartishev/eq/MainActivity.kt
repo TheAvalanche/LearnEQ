@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         val resultView: TextView = findViewById(R.id.result)
 
         bassButton.setOnClickListener { v: View ->
-            val frequency = PlaybackEngine.getFrequency()
+            val frequency = PlaybackEngine.frequency
 
             if (frequency >= 50 && frequency <= 250) {
                 resultView.setText("Match")
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         midButton.setOnClickListener { v: View ->
-            val frequency = PlaybackEngine.getFrequency()
+            val frequency = PlaybackEngine.frequency
 
             if (frequency >= 250 && frequency <= 4000) {
                 resultView.setText("Match")
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         highButton.setOnClickListener { v: View ->
-            val frequency = PlaybackEngine.getFrequency()
+            val frequency = PlaybackEngine.frequency
 
             if (frequency >= 4000 && frequency <= 20000) {
                 resultView.setText("Match")
