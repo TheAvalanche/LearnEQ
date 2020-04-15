@@ -2,5 +2,7 @@
     <declare-styleable name="EQScale">
         <attr name="scaleColor" format="color" />
         <attr name="cursorColor" format="color" />
+        <attr name="correctCursorColor" format="color" />
+        <attr name="rangeColor" format="color" />
     </declare-styleable>
 </resources>

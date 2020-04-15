@@ -8,4 +8,11 @@
     <string name="button.bass">Bass</string>
     <string name="button.mid">Mid</string>
     <string name="button.high">High</string>
+    <string name="button.check">Check</string>
+    <string name="level.label">LEVEL</string>
+    <string name="level.easy">EASY</string>
+    <string name="level.mid">MID</string>
+    <string name="level.hard">HARD</string>
+    <string name="result.match">MATCH</string>
+    <string name="result.fail">FAIL</string>
 </resources>

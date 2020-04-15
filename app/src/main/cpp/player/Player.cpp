@@ -37,7 +37,7 @@ void Player::renderAudio(float *targetData, int32_t numFrames){
         for (int i = 0; i < framesToRenderFromData; ++i) {
             for (int j = 0; j < properties.channelCount; ++j) {
 
-                const float in = data[(mReadFrameIndex * properties.channelCount) + j];
+                const float in = data[(mReadFrameIndex * properties.channelCount) + j] * 0.9f; //reduce volume not to clip
 
                 y = b0 * in + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2;
                 x2 = x1;

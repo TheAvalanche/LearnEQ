@@ -8,6 +8,7 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import kotlin.math.ln
 
 
 /**
@@ -17,8 +18,16 @@ class EQScale : View {
 
     private var scalePaint = Paint()
     private var cursorPaint = Paint()
-    private var cursorPositionX = -1.0f
-    private var hz = 1130L
+    private var correctCursorPaint = Paint()
+    private var rangePaint = Paint()
+    private var cursorPositionX = -999.0f
+    private var correctCursorPositionX = -999.0f
+    private var selectedFrequency = 1130L
+    private var correctFrequency = 1130L
+    private var showCorrect = false
+    private var rangeMultiplier = 1.0f
+
+    private var textHeight = 0
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -52,6 +61,16 @@ class EQScale : View {
             Color.RED
         )
 
+        val correctCursorColor = a.getColor(
+            R.styleable.EQScale_correctCursorColor,
+            Color.GREEN
+        )
+
+        val rangeColor = a.getColor(
+            R.styleable.EQScale_rangeColor,
+            Color.LTGRAY
+        )
+
         a.recycle()
 
         // Set up a default TextPaint object
@@ -66,17 +85,28 @@ class EQScale : View {
         cursorPaint.textAlign = Paint.Align.CENTER
         cursorPaint.textSize = 12 * resources.displayMetrics.density
 
+        val bounds = Rect()
+        cursorPaint.getTextBounds("1000Hz", 0, "1000Hz".length, bounds)
+        textHeight = bounds.height()
+
+        correctCursorPaint.flags = Paint.ANTI_ALIAS_FLAG
+        correctCursorPaint.color = correctCursorColor
+        correctCursorPaint.strokeWidth = 2 * resources.displayMetrics.density
+        correctCursorPaint.textAlign = Paint.Align.CENTER
+        correctCursorPaint.textSize = 12 * resources.displayMetrics.density
+
+        rangePaint.flags = Paint.ANTI_ALIAS_FLAG
+        rangePaint.color = rangeColor
+        rangePaint.alpha = 120
+
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        val x = event.x
-
-        val n = x *  9.0 / width;
-        hz = Math.round(25.0 * Math.pow(2.0, n + 1))
+        selectedFrequency = positionToFrequency(event.x)
 
         when (event.action) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
-                cursorPositionX = x;
+                cursorPositionX = event.x;
                 invalidate()
             }
         }
@@ -86,13 +116,9 @@ class EQScale : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        if (cursorPositionX < 0) {
+        if (cursorPositionX < -100) {
             cursorPositionX = width / 2.0f
         }
-
-        val bounds = Rect()
-        cursorPaint.getTextBounds("1000Hz", 0, "1000Hz".length, bounds)
-        val curTextHeight: Int = bounds.height()
 
         scalePaint.let {
             canvas.drawLine(width / 9 * 1.0f, 0.0f, width / 9 * 1.0f, height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent), it)
@@ -114,11 +140,79 @@ class EQScale : View {
             canvas.drawText("12.8kHz", width / 9 * 8.0f, height.toFloat(), it)
         }
 
-        cursorPaint.let {
-            canvas.drawLine(cursorPositionX, 0.0f, cursorPositionX, (height.toFloat() / 2) - (curTextHeight / 2) - (curTextHeight / 4), it)
-            canvas.drawLine(cursorPositionX, (height.toFloat() / 2) + (curTextHeight / 2) + (curTextHeight / 4), cursorPositionX, height.toFloat(), it)
+        rangePaint.let {
+            canvas.drawRect(cursorPositionX - (width * rangeMultiplier / 9), 0.0f, cursorPositionX + (width * rangeMultiplier / 9), height.toFloat(), it)
+        }
 
-            canvas.drawText(hz.toString() + "Hz", cursorPositionX, (height.toFloat() / 2) + (curTextHeight / 2), it)
+        cursorPaint.let {
+            if (!showCorrect) {
+                canvas.drawLine(cursorPositionX, 0.0f, cursorPositionX, (height.toFloat() / 2) - (textHeight / 2) - (textHeight / 4), it)
+                canvas.drawLine(cursorPositionX, (height.toFloat() / 2) + (textHeight / 2) + (textHeight / 4), cursorPositionX, height.toFloat(), it)
+
+                canvas.drawText(selectedFrequency.toString() + "Hz", cursorPositionX, (height.toFloat() / 2) + (textHeight / 2), it)
+            }
+        }
+
+        correctCursorPaint.let {
+            if (showCorrect) {
+                canvas.drawLine(correctCursorPositionX, 0.0f, correctCursorPositionX, (height.toFloat() / 2) - (textHeight / 2) - (textHeight / 4), it)
+                canvas.drawLine(correctCursorPositionX, (height.toFloat() / 2) + (textHeight / 2) + (textHeight / 4), correctCursorPositionX, height.toFloat(), it)
+
+                canvas.drawText(correctFrequency.toString() + "Hz", correctCursorPositionX, (height.toFloat() / 2) + (textHeight / 2), it)
+            }
         }
     }
+
+    private fun frequencyToPosition(frequency: Long): Float {
+        val n = ln(frequency / 50.0) / ln(2.0)
+        return (n * width).toFloat() / 9.0f
+    }
+
+    private fun positionToFrequency(position: Float): Long {
+        val n = position *  9.0 / width;
+        return Math.round(50.0 * Math.pow(2.0, n))
+    }
+
+    fun getBottomRangeFrequency(): Long {
+        return positionToFrequency(cursorPositionX - (width * rangeMultiplier / 9))
+    }
+
+    fun getTopRangeFrequency(): Long {
+        return positionToFrequency(cursorPositionX + (width * rangeMultiplier / 9))
+    }
+
+    fun showCorrect(frequency: Long) {
+        correctFrequency = frequency
+        showCorrect = true
+
+        correctCursorPositionX = frequencyToPosition(frequency)
+
+        invalidate()
+    }
+
+    fun stopShowingCorrect() {
+        showCorrect = false
+        invalidate()
+    }
+
+
+    fun setLevel(level: Level) {
+        when(level) {
+            Level.EASY -> {
+                rangeMultiplier = 1.0f
+            }
+            Level.MID -> {
+                rangeMultiplier = 0.5f
+            }
+            Level.HARD -> {
+                rangeMultiplier = 0.33f
+            }
+        }
+
+        invalidate()
+    }
+}
+
+enum class Level {
+    EASY, MID, HARD
 }

@@ -1,14 +1,13 @@
 package lv.kartishev.eq
 
 import android.content.Context
-import android.media.MediaPlayer
-import android.media.audiofx.Equalizer
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
+import com.rm.rmswitch.RMTristateSwitch
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,51 +33,49 @@ class MainActivity : AppCompatActivity() {
 
         val playButton: Button = findViewById(R.id.play_button)
         val eqButton: ToggleButton = findViewById(R.id.eq_button)
-        val bassButton: Button = findViewById(R.id.bass_button)
-        val midButton: Button = findViewById(R.id.mid_button)
-        val highButton: Button = findViewById(R.id.high_button)
+        val checkButton: Button = findViewById(R.id.check_button)
+        val eqScale: EQScale = findViewById(R.id.eq_scale)
+        val levelSwitch: RMTristateSwitch = findViewById(R.id.level_switch)
+        val levelText: TextView = findViewById(R.id.level_text)
 
         val resultView: TextView = findViewById(R.id.result)
 
-        bassButton.setOnClickListener { v: View ->
-            val frequency = PlaybackEngine.frequency
-
-            if (frequency >= 50 && frequency <= 250) {
-                resultView.setText("Match")
-                v.postDelayed({
-                    PlaybackEngine.changeEQ()
-                    resultView.setText("")
-                }, 1000)
-            } else {
-                resultView.setText("Fail")
+        levelSwitch.addSwitchObserver { switchView, state ->
+            when (state) {
+                RMTristateSwitch.STATE_LEFT -> {
+                    eqScale.setLevel(Level.EASY)
+                    levelText.setText(R.string.level_easy)
+                }
+                RMTristateSwitch.STATE_MIDDLE -> {
+                    eqScale.setLevel(Level.MID)
+                    levelText.setText(R.string.level_mid)
+                }
+                RMTristateSwitch.STATE_RIGHT -> {
+                    eqScale.setLevel(Level.HARD)
+                    levelText.setText(R.string.level_hard)
+                }
             }
         }
 
-        midButton.setOnClickListener { v: View ->
+        checkButton.setOnClickListener { v: View ->
             val frequency = PlaybackEngine.frequency
 
-            if (frequency >= 250 && frequency <= 4000) {
-                resultView.setText("Match")
+            val chosenMinFrequency = eqScale.getBottomRangeFrequency()
+            val chosenMaxFrequency = eqScale.getTopRangeFrequency()
+
+            if (frequency >= chosenMinFrequency && frequency <= chosenMaxFrequency) {
+                resultView.setText(R.string.result_match)
+                eqScale.showCorrect(frequency.toLong())
                 v.postDelayed({
+                    eqScale.stopShowingCorrect()
                     PlaybackEngine.changeEQ()
                     resultView.setText("")
-                }, 1000)
+                }, 2000)
             } else {
-                resultView.setText("Fail")
-            }
-        }
-
-        highButton.setOnClickListener { v: View ->
-            val frequency = PlaybackEngine.frequency
-
-            if (frequency >= 4000 && frequency <= 20000) {
-                resultView.setText("Match")
+                resultView.setText(R.string.result_fail)
                 v.postDelayed({
-                    PlaybackEngine.changeEQ()
                     resultView.setText("")
                 }, 1000)
-            } else {
-                resultView.setText("Fail")
             }
         }
 
@@ -92,12 +89,17 @@ class MainActivity : AppCompatActivity() {
 
                 playButton.setText(R.string.button_play)
 
+                checkButton.isEnabled = false
+                eqButton.isEnabled = false
+
                 playing = false
             } else {
-
                 PlaybackEngine.setToneOn(true)
 
                 playButton.setText(R.string.button_stop)
+
+                checkButton.isEnabled = true
+                eqButton.isEnabled = true
 
                 playing = true
             }
