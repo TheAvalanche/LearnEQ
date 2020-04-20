@@ -12,13 +12,29 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/play_button"
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/eq_switch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:layout_margin="10dp"
-            android:text="@string/button.play" />
+            app:checkedButton="@id/eq_on_button"
+            app:singleSelection="true">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/eq_off_button"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button.eq.off" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/eq_on_button"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button.eq.on" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <TextView
             android:id="@+id/level_label"
@@ -67,7 +83,7 @@
             app:correctCursorColor="@color/colorCorrect"
             app:cursorColor="@color/colorSelect"
             app:rangeColor="@color/colorRange"
-            app:scaleColor="@color/colorPrimary" />
+            app:scaleColor="@color/colorAccent" />
     </LinearLayout>
 
     <LinearLayout
@@ -75,24 +91,24 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ToggleButton
-            android:id="@+id/eq_button"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/play_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_margin="10dp"
-            android:checked="true"
-            android:enabled="false"
-            android:textOff="@string/button.eq.off"
-            android:textOn="@string/button.eq.on" />
+            android:layout_weight="1"
+            android:text="@string/button.play"
+            app:icon="@drawable/baseline_play_arrow_white_24dp"
+            style="@style/Widget.MaterialComponents.Button.Icon"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/check_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="10dp"
             android:enabled="false"
+            style="@style/MtButtonStyle"
             android:text="@string/button.check" />
     </LinearLayout>
 

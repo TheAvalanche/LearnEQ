@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.rm.rmswitch.RMTristateSwitch
 
 
@@ -29,10 +31,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
         val playButton: Button = findViewById(R.id.play_button)
-        val eqButton: ToggleButton = findViewById(R.id.eq_button)
+        val eqSwitch: MaterialButtonToggleGroup = findViewById(R.id.eq_switch)
+        val eqOffButton: Button = findViewById(R.id.eq_off_button)
+        val eqOnButton: Button = findViewById(R.id.eq_on_button)
         val checkButton: Button = findViewById(R.id.check_button)
         val eqScale: EQScale = findViewById(R.id.eq_scale)
         val levelSwitch: RMTristateSwitch = findViewById(R.id.level_switch)
@@ -40,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         val resultView: TextView = findViewById(R.id.result)
 
-        levelSwitch.addSwitchObserver { switchView, state ->
+        levelSwitch.addSwitchObserver { _, state ->
             when (state) {
                 RMTristateSwitch.STATE_LEFT -> {
                     eqScale.setLevel(Level.EASY)
@@ -68,19 +75,27 @@ class MainActivity : AppCompatActivity() {
                 eqScale.showCorrect(frequency.toLong())
                 v.postDelayed({
                     eqScale.stopShowingCorrect()
+                    eqSwitch.check(R.id.eq_on_button)
                     PlaybackEngine.changeEQ()
+                    PlaybackEngine.setEQ(true)
                     resultView.setText("")
                 }, 2000)
             } else {
                 resultView.setText(R.string.result_fail)
                 v.postDelayed({
+                    eqSwitch.check(R.id.eq_on_button)
+                    PlaybackEngine.setEQ(true)
                     resultView.setText("")
                 }, 1000)
             }
         }
 
-        eqButton.setOnCheckedChangeListener { _, isChecked ->
-            PlaybackEngine.setEQ(isChecked)
+        eqOffButton.setOnClickListener {
+            PlaybackEngine.setEQ(false)
+        }
+
+        eqOnButton.setOnClickListener {
+            PlaybackEngine.setEQ(true)
         }
 
         playButton.setOnClickListener {
@@ -90,7 +105,6 @@ class MainActivity : AppCompatActivity() {
                 playButton.setText(R.string.button_play)
 
                 checkButton.isEnabled = false
-                eqButton.isEnabled = false
 
                 playing = false
             } else {
@@ -99,7 +113,6 @@ class MainActivity : AppCompatActivity() {
                 playButton.setText(R.string.button_stop)
 
                 checkButton.isEnabled = true
-                eqButton.isEnabled = true
 
                 playing = true
             }
