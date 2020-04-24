@@ -36,9 +36,15 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     flavorDimensions "extractorLibrary"
     productFlavors {
-        ndkExtractor {
+        /*ndkExtractor {
             dimension "extractorLibrary"
 
             // Oboe has a minimum API of 16, but AMediaExtractor (used to extract the MP3 assets)
@@ -47,7 +53,23 @@ android {
             minSdkVersion 21
             externalNativeBuild {
                 cmake {
+                    arguments "-DUSE_FFMPEG=0"
+                }
+            }
+        }*/
 
+        /**
+         * To use FFmpeg for asset extraction do the following:
+         * - Uncomment this block
+         * - Change the build variant to ffmpegExtractor
+         * - Update the FFMPEG_DIR variable in CMakeLists.txt to the local FFmpeg path
+         */
+        ffmpegExtractor {
+            dimension "extractorLibrary"
+            minSdkVersion 16
+            externalNativeBuild {
+                cmake {
+                    arguments "-DUSE_FFMPEG=1"
                 }
             }
         }

@@ -8,8 +8,11 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.rm.rmswitch.RMTristateSwitch
+import java.time.LocalDateTime
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,25 +21,28 @@ class MainActivity : AppCompatActivity() {
     var playing: Boolean = false;
 
     override fun onResume() {
+        println("resume1 " + Date())
         super.onResume()
-
+        println("resume2 " + Date())
         PlaybackEngine.create(this)
+        println("resume3 " + Date())
     }
 
     override fun onPause() {
-
+        println("pause " + Date())
         PlaybackEngine.delete()
         super.onPause()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        println("oncreate " + Date())
 
         setContentView(R.layout.activity_main)
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
-        val playButton: Button = findViewById(R.id.play_button)
+        val playButton: MaterialButton = findViewById(R.id.play_button)
         val eqSwitch: MaterialButtonToggleGroup = findViewById(R.id.eq_switch)
         val eqOffButton: Button = findViewById(R.id.eq_off_button)
         val eqOnButton: Button = findViewById(R.id.eq_on_button)
@@ -103,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                 PlaybackEngine.setToneOn(false)
 
                 playButton.setText(R.string.button_play)
+                playButton.setIconResource(R.drawable.baseline_play_arrow_white_24dp)
 
                 checkButton.isEnabled = false
 
@@ -111,6 +118,7 @@ class MainActivity : AppCompatActivity() {
                 PlaybackEngine.setToneOn(true)
 
                 playButton.setText(R.string.button_stop)
+                playButton.setIconResource(R.drawable.baseline_stop_white_24dp)
 
                 checkButton.isEnabled = true
 

@@ -18,7 +18,7 @@
 #define SAMPLES_GAMECONSTANTS_H
 
 // Filename for the backing track asset (in assets folder)
-constexpr char kBackingTrackFilename[] { "firebird_48.mp3" };
+constexpr char kBackingTrackFilename[] { "rock.mp3" }; //todo resampling
 
 constexpr float freq[] = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000};
 
