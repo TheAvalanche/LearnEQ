@@ -131,7 +131,7 @@ int64_t FFMpegExtractor::decode(
             nullptr,
             [](AVIOContext *c) {
                 av_free(c->buffer);
-                //avio_context_free(&c);
+                avio_context_free(&c);
             }
     };
     {

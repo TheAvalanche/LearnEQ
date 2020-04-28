@@ -5,42 +5,52 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.rm.rmswitch.RMTristateSwitch
-import java.time.LocalDateTime
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
 
     val context: Context = this;
     var playing: Boolean = false;
+    lateinit var mAdView: AdView;
 
     override fun onResume() {
-        println("resume1 " + Date())
         super.onResume()
-        println("resume2 " + Date())
-        PlaybackEngine.create(this)
-        println("resume3 " + Date())
+        PlaybackEngine.create(this) //todo
+        mAdView.resume()
     }
 
     override fun onPause() {
-        println("pause " + Date())
-        PlaybackEngine.delete()
+        mAdView.pause()
+        PlaybackEngine.delete() //todo
         super.onPause()
+    }
+
+    public override fun onDestroy() {
+        mAdView.destroy()
+
+        super.onDestroy()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("oncreate " + Date())
 
         setContentView(R.layout.activity_main)
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+        MobileAds.initialize(this) { }
+
+        mAdView = findViewById(R.id.adView)
+        val adRequest: AdRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         val playButton: MaterialButton = findViewById(R.id.play_button)
         val eqSwitch: MaterialButtonToggleGroup = findViewById(R.id.eq_switch)

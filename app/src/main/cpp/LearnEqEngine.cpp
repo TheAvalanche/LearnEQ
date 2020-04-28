@@ -54,20 +54,11 @@ void LearnEqEngine::start() {
             .sampleRate = mStream->getSampleRate()
     };
 
-
-    time_t my_time = time(NULL);
-
-    // ctime() used to give the present time
-    LOGE("test %s", ctime(&my_time));
     // Create a data source and player for our backing track
     std::shared_ptr<AAssetDataSource> backingTrackSource {
             AAssetDataSource::newFromCompressedAsset(mAssetManager, kBackingTrackFilename, targetProperties)
     };
 
-    time_t my_time2 = time(NULL);
-
-    // ctime() used to give the present time
-    LOGE("test 2 %s", ctime(&my_time2));
     if (backingTrackSource == nullptr){
         LOGE("Could not load source data for backing track");
     }
@@ -76,18 +67,9 @@ void LearnEqEngine::start() {
 
     player->setLooping(true);
 
-    time_t my_time3 = time(NULL);
-    LOGE("test 3 %s", ctime(&my_time3));
-
     if (result == oboe::Result::OK){
-        time_t my_time4 = time(NULL);
-        LOGE("test 4 %s", ctime(&my_time4));
         mLatencyCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(player));
-        time_t my_time5 = time(NULL);
-        LOGE("test 5 %s", ctime(&my_time5));
         mStream->start();
-        time_t my_time6 = time(NULL);
-        LOGE("test 6 %s", ctime(&my_time6));
     } else {
         LOGE("Error creating playback stream. Error: %s", oboe::convertToText(result));
     }
