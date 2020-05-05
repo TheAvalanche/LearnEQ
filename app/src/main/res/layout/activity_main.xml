@@ -122,15 +122,21 @@
     <TextView
         android:id="@+id/result"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="8dp"
         android:gravity="center"
         android:text=""
         android:textStyle="bold"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="14sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/check_button" />
+        app:layout_constraintTop_toBottomOf="@id/check_button"
+        app:layout_constraintVertical_chainStyle="spread" />
 
 
     <androidx.constraintlayout.widget.Guideline

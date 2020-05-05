@@ -41,6 +41,8 @@ public:
 
     float getFrequency();
 
+    void changeTrack();
+
     // From IRestartable
     void restart() override;
 

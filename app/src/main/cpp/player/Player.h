@@ -19,6 +19,7 @@
 
 #include <cstdint>
 #include <array>
+#include <vector>
 
 #include <chrono>
 #include <memory>
@@ -28,6 +29,7 @@
 #include <IRenderableAudio.h>
 
 #include "../asset/DataSource.h"
+#include "../util/constants.h"
 
 class Player : public IRenderableAudio{
 
@@ -42,16 +44,18 @@ public:
     Player(std::shared_ptr<DataSource> source)
         : mSource(source)
     {
+        srand(static_cast<unsigned int>(time(NULL)));
         sample_rate = mSource->getProperties().sampleRate;
-        reconfigure(freq[rand() % 23]);
+        reconfigure(freq[rand() % freq.size()]);
     };
 
     void renderAudio(float *targetData, int32_t numFrames);
     void resetPlayHead() { mReadFrameIndex = 0; };
     void setPlaying(bool isPlaying) { mIsPlaying = isPlaying; resetPlayHead(); };
     void setEQ(bool isEqOn) { mEqOn = isEqOn; };
-    void changeEQ() { reconfigure(freq[rand() % 23]); };
+    void changeEQ() { reconfigure(freq[0]); };
     void setLooping(bool isLooping) { mIsLooping = isLooping; };
+    void setSource(std::shared_ptr<DataSource> source) { mSource = source; };
     float getFrequency() {
         return center_freq;
     }

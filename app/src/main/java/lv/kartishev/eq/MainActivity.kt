@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
 
             if (frequency >= chosenMinFrequency && frequency <= chosenMaxFrequency) {
                 resultView.setText(R.string.result_match)
+                resultView.setTextColor(resources.getColor(R.color.colorAccent))
                 eqScale.showCorrect(frequency.toLong())
                 v.postDelayed({
                     eqScale.stopShowingCorrect()
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                 }, 2000)
             } else {
                 resultView.setText(R.string.result_fail)
+                resultView.setTextColor(resources.getColor(R.color.colorPrimaryDark))
                 v.postDelayed({
                     eqSwitch.check(R.id.eq_on_button)
                     PlaybackEngine.setEQ(true)
@@ -117,7 +119,6 @@ class MainActivity : AppCompatActivity() {
         playButton.setOnClickListener {
             if (playing) {
                 PlaybackEngine.setToneOn(false)
-
                 playButton.setText(R.string.button_play)
                 playButton.setIconResource(R.drawable.baseline_play_arrow_white_24dp)
 

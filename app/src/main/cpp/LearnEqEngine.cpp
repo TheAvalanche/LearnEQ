@@ -19,6 +19,7 @@
 #include <memory>
 #include <chrono>
 #include <ctime>
+#include <array>
 
 #include <Oscillator.h>
 
@@ -54,9 +55,11 @@ void LearnEqEngine::start() {
             .sampleRate = mStream->getSampleRate()
     };
 
+    srand(static_cast<unsigned int>(time(NULL)));
+
     // Create a data source and player for our backing track
     std::shared_ptr<AAssetDataSource> backingTrackSource {
-            AAssetDataSource::newFromCompressedAsset(mAssetManager, kBackingTrackFilename, targetProperties)
+            AAssetDataSource::newFromCompressedAsset(mAssetManager, kBackingTrackFilename[rand() % kBackingTrackFilename.size()].c_str(), targetProperties)
     };
 
     if (backingTrackSource == nullptr){
@@ -73,6 +76,24 @@ void LearnEqEngine::start() {
     } else {
         LOGE("Error creating playback stream. Error: %s", oboe::convertToText(result));
     }
+}
+
+void LearnEqEngine::changeTrack() {
+    AudioProperties targetProperties {
+            .channelCount = mStream->getChannelCount(),
+            .sampleRate = mStream->getSampleRate()
+    };
+
+    // Create a data source and player for our backing track
+    std::shared_ptr<AAssetDataSource> backingTrackSource {
+            AAssetDataSource::newFromCompressedAsset(mAssetManager, kBackingTrackFilename[rand() % kBackingTrackFilename.size()].c_str(), targetProperties)
+    };
+
+    if (backingTrackSource == nullptr){
+        LOGE("Could not load source data for backing track");
+    }
+
+    player->setSource(backingTrackSource);
 }
 
 void LearnEqEngine::tap(bool isDown) {

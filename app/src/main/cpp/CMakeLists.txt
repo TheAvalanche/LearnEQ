@@ -24,6 +24,7 @@ include_directories(${DEBUG_UTILS_PATH})
 # App specific sources
 set (APP_SOURCES
         jni_bridge.cpp
+        util/constants.cpp
         LearnEqEngine.cpp
         asset/AAssetDataSource.cpp
         player/Player.cpp

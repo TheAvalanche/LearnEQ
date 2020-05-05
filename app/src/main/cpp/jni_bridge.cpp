@@ -81,6 +81,20 @@ Java_lv_kartishev_eq_PlaybackEngine_native_1changeEQ(
     engine->changeEQ();
 }
 
+JNIEXPORT void JNICALL
+Java_lv_kartishev_eq_PlaybackEngine_native_1changeTrack(
+        JNIEnv *env,
+        jclass,
+        jlong engineHandle) {
+
+    LearnEqEngine *engine = reinterpret_cast<LearnEqEngine *>(engineHandle);
+    if (engine == nullptr) {
+        LOGE("Engine handle is invalid, call createHandle() to create a new one");
+        return;
+    }
+    engine->changeTrack();
+}
+
 JNIEXPORT jfloat JNICALL
 Java_lv_kartishev_eq_PlaybackEngine_native_1getFrequency(
         JNIEnv *env,

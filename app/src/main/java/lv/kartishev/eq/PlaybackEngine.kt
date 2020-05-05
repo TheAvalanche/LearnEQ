@@ -18,8 +18,8 @@ object PlaybackEngine {
     private fun setDefaultStreamValues(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             val myAudioMgr = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-            val sampleRateStr = myAudioMgr.getProperty(AudioManager.PROPERTY_OUTPUT_SAMPLE_RATE)
-            val defaultSampleRate = sampleRateStr.toInt()
+            //val sampleRateStr = myAudioMgr.getProperty(AudioManager.PROPERTY_OUTPUT_SAMPLE_RATE)
+            val defaultSampleRate = 44100
             val framesPerBurstStr = myAudioMgr.getProperty(AudioManager.PROPERTY_OUTPUT_FRAMES_PER_BUFFER)
             val defaultFramesPerBurst = framesPerBurstStr.toInt()
             native_setDefaultStreamValues(defaultSampleRate, defaultFramesPerBurst)
@@ -45,6 +45,10 @@ object PlaybackEngine {
         if (mEngineHandle != 0L) native_changeEQ(mEngineHandle)
     }
 
+    fun changeTrack() {
+        if (mEngineHandle != 0L) native_changeTrack(mEngineHandle)
+    }
+
     val frequency: Float
         get() = if (mEngineHandle != 0L) native_getFrequency(mEngineHandle) else 0.0f
 
@@ -57,6 +61,7 @@ object PlaybackEngine {
     private external fun native_setEQ(engineHandle: Long, isEqOn: Boolean)
 
     private external fun native_changeEQ(engineHandle: Long)
+    private external fun native_changeTrack(engineHandle: Long)
     private external fun native_setDefaultStreamValues(sampleRate: Int, framesPerBurst: Int)
 
     // Load native library
