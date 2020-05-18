@@ -53,7 +53,7 @@ public:
     void resetPlayHead() { mReadFrameIndex = 0; };
     void setPlaying(bool isPlaying) { mIsPlaying = isPlaying; resetPlayHead(); };
     void setEQ(bool isEqOn) { mEqOn = isEqOn; };
-    void changeEQ() { reconfigure(freq[0]); };
+    void changeEQ() { reconfigure(freq[rand() % freq.size()]); };
     void setLooping(bool isLooping) { mIsLooping = isLooping; };
     void setSource(std::shared_ptr<DataSource> source) { mSource = source; };
     float getFrequency() {

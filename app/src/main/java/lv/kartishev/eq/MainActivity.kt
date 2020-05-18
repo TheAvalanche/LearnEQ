@@ -1,6 +1,9 @@
 package lv.kartishev.eq
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -19,16 +22,23 @@ class MainActivity : AppCompatActivity() {
 
     val context: Context = this;
     var playing: Boolean = false;
+
+    lateinit var playButton: MaterialButton;
+    lateinit var checkButton: MaterialButton;
+    var mPluginReceiver: BroadcastReceiver = PluginBroadcastReceiver()
     lateinit var mAdView: AdView;
 
     override fun onResume() {
         super.onResume()
+        val filter = IntentFilter(Intent.ACTION_HEADSET_PLUG)
+        this.registerReceiver(mPluginReceiver, filter)
         PlaybackEngine.create(this) //todo
         mAdView.resume()
     }
 
     override fun onPause() {
         mAdView.pause()
+        this.unregisterReceiver(mPluginReceiver);
         PlaybackEngine.delete() //todo
         super.onPause()
     }
@@ -52,11 +62,11 @@ class MainActivity : AppCompatActivity() {
         val adRequest: AdRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
 
-        val playButton: MaterialButton = findViewById(R.id.play_button)
+        playButton = findViewById(R.id.play_button)
+        checkButton = findViewById(R.id.check_button)
         val eqSwitch: MaterialButtonToggleGroup = findViewById(R.id.eq_switch)
         val eqOffButton: Button = findViewById(R.id.eq_off_button)
         val eqOnButton: Button = findViewById(R.id.eq_on_button)
-        val checkButton: Button = findViewById(R.id.check_button)
         val eqScale: EQScale = findViewById(R.id.eq_scale)
         val levelSwitch: RMTristateSwitch = findViewById(R.id.level_switch)
         val levelText: TextView = findViewById(R.id.level_text)
@@ -101,8 +111,8 @@ class MainActivity : AppCompatActivity() {
                 resultView.setText(R.string.result_fail)
                 resultView.setTextColor(resources.getColor(R.color.colorPrimaryDark))
                 v.postDelayed({
-                    eqSwitch.check(R.id.eq_on_button)
-                    PlaybackEngine.setEQ(true)
+                    //eqSwitch.check(R.id.eq_on_button)
+                    //PlaybackEngine.setEQ(true)
                     resultView.setText("")
                 }, 1000)
             }
@@ -135,6 +145,21 @@ class MainActivity : AppCompatActivity() {
 
                 playing = true
             }
+        }
+    }
+
+    inner class PluginBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            PlaybackEngine.setToneOn(false)
+            playButton.setText(R.string.button_play)
+            playButton.setIconResource(R.drawable.baseline_play_arrow_white_24dp)
+
+            checkButton.isEnabled = false
+
+            playing = false
+            PlaybackEngine.delete()
+
+            PlaybackEngine.create(this@MainActivity)
         }
     }
 }

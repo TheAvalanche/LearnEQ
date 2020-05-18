@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LearnEQ</string>
+    <string name="app_name">Master EQ</string>
     <string name="button.play">Play</string>
     <string name="button.stop">Stop</string>
     <string name="button.pause">Pause</string>
