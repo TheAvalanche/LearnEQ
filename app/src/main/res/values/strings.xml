@@ -15,4 +15,7 @@
     <string name="level.hard">HARD</string>
     <string name="result.match">MATCH</string>
     <string name="result.fail">FAIL</string>
+    <string name="home">Home</string>
+    <string name="second">Second</string>
+    <string name="action_settings">Settings</string>
 </resources>
