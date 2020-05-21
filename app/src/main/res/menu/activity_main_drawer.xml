@@ -5,8 +5,8 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:title="@string/home" />
+            android:id="@+id/nav_master_eq"
+            android:title="@string/nav.master_eq" />
         <item
             android:id="@+id/nav_second"
             android:title="@string/second" />

@@ -77,13 +77,13 @@ class EQScale : View {
         scalePaint.flags = Paint.ANTI_ALIAS_FLAG
         scalePaint.color = scaleColor
         scalePaint.textAlign = Paint.Align.CENTER
-        scalePaint.textSize = 10 * resources.displayMetrics.density
+        scalePaint.textSize = 12 * resources.displayMetrics.density
 
         cursorPaint.flags = Paint.ANTI_ALIAS_FLAG
         cursorPaint.color = cursorColor
         cursorPaint.strokeWidth = 2 * resources.displayMetrics.density
         cursorPaint.textAlign = Paint.Align.CENTER
-        cursorPaint.textSize = 12 * resources.displayMetrics.density
+        cursorPaint.textSize = 14 * resources.displayMetrics.density
 
         val bounds = Rect()
         cursorPaint.getTextBounds("1000Hz", 0, "1000Hz".length, bounds)
@@ -93,7 +93,7 @@ class EQScale : View {
         correctCursorPaint.color = correctCursorColor
         correctCursorPaint.strokeWidth = 2 * resources.displayMetrics.density
         correctCursorPaint.textAlign = Paint.Align.CENTER
-        correctCursorPaint.textSize = 12 * resources.displayMetrics.density
+        correctCursorPaint.textSize = 14 * resources.displayMetrics.density
 
         rangePaint.flags = Paint.ANTI_ALIAS_FLAG
         rangePaint.color = rangeColor

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_master_eq">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="lv.kartishev.eq.HomeFragment"
-        android:label="@string/home"
-        tools:layout="@layout/fragment_home">
+        android:id="@+id/nav_master_eq"
+        android:name="lv.kartishev.eq.MasterEqFragment"
+        android:label="@string/nav.master_eq"
+        tools:layout="@layout/fragment_master_eq">
     </fragment>
     <fragment
         android:id="@+id/nav_second"

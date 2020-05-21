@@ -29,27 +29,16 @@ import com.rm.rmswitch.RMTristateSwitch
 
 class MainActivity : AppCompatActivity() {
 
-    val context: Context = this;
-    var playing: Boolean = false;
-
-    lateinit var playButton: MaterialButton;
-    lateinit var checkButton: MaterialButton;
-    var mPluginReceiver: BroadcastReceiver = PluginBroadcastReceiver()
     lateinit var mAdView: AdView;
     lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onResume() {
         super.onResume()
-        val filter = IntentFilter(Intent.ACTION_HEADSET_PLUG)
-        this.registerReceiver(mPluginReceiver, filter)
-        PlaybackEngine.create(this) //todo
         mAdView.resume()
     }
 
     override fun onPause() {
         mAdView.pause()
-        this.unregisterReceiver(mPluginReceiver);
-        PlaybackEngine.delete() //todo
         super.onPause()
     }
 
@@ -75,98 +64,13 @@ class MainActivity : AppCompatActivity() {
         val adRequest: AdRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
 
-        playButton = findViewById(R.id.play_button)
-        checkButton = findViewById(R.id.check_button)
-        val eqSwitch: MaterialButtonToggleGroup = findViewById(R.id.eq_switch)
-        val eqOffButton: Button = findViewById(R.id.eq_off_button)
-        val eqOnButton: Button = findViewById(R.id.eq_on_button)
-        val eqScale: EQScale = findViewById(R.id.eq_scale)
-        val levelSwitch: RMTristateSwitch = findViewById(R.id.level_switch)
-        val levelText: TextView = findViewById(R.id.level_text)
-
-        val resultView: TextView = findViewById(R.id.result)
-
-        levelSwitch.addSwitchObserver { _, state ->
-            when (state) {
-                RMTristateSwitch.STATE_LEFT -> {
-                    eqScale.setLevel(Level.EASY)
-                    levelText.setText(R.string.level_easy)
-                }
-                RMTristateSwitch.STATE_MIDDLE -> {
-                    eqScale.setLevel(Level.MID)
-                    levelText.setText(R.string.level_mid)
-                }
-                RMTristateSwitch.STATE_RIGHT -> {
-                    eqScale.setLevel(Level.HARD)
-                    levelText.setText(R.string.level_hard)
-                }
-            }
-        }
-
-        checkButton.setOnClickListener { v: View ->
-            val frequency = PlaybackEngine.frequency
-
-            val chosenMinFrequency = eqScale.getBottomRangeFrequency()
-            val chosenMaxFrequency = eqScale.getTopRangeFrequency()
-
-            if (frequency >= chosenMinFrequency && frequency <= chosenMaxFrequency) {
-                resultView.setText(R.string.result_match)
-                resultView.setTextColor(resources.getColor(R.color.colorAccent))
-                eqScale.showCorrect(frequency.toLong())
-                v.postDelayed({
-                    eqScale.stopShowingCorrect()
-                    eqSwitch.check(R.id.eq_on_button)
-                    PlaybackEngine.changeEQ()
-                    PlaybackEngine.setEQ(true)
-                    resultView.setText("")
-                }, 2000)
-            } else {
-                resultView.setText(R.string.result_fail)
-                resultView.setTextColor(resources.getColor(R.color.colorPrimaryDark))
-                v.postDelayed({
-                    //eqSwitch.check(R.id.eq_on_button)
-                    //PlaybackEngine.setEQ(true)
-                    resultView.setText("")
-                }, 1000)
-            }
-        }
-
-        eqOffButton.setOnClickListener {
-            PlaybackEngine.setEQ(false)
-        }
-
-        eqOnButton.setOnClickListener {
-            PlaybackEngine.setEQ(true)
-        }
-
-        playButton.setOnClickListener {
-            if (playing) {
-                PlaybackEngine.setToneOn(false)
-                playButton.setText(R.string.button_play)
-                playButton.setIconResource(R.drawable.baseline_play_arrow_white_24dp)
-
-                checkButton.isEnabled = false
-
-                playing = false
-            } else {
-                PlaybackEngine.setToneOn(true)
-
-                playButton.setText(R.string.button_stop)
-                playButton.setIconResource(R.drawable.baseline_stop_white_24dp)
-
-                checkButton.isEnabled = true
-
-                playing = true
-            }
-        }
-
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_home, R.id.nav_second), drawerLayout)
+            R.id.nav_master_eq, R.id.nav_second), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
@@ -180,20 +84,5 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    inner class PluginBroadcastReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            PlaybackEngine.setToneOn(false)
-            playButton.setText(R.string.button_play)
-            playButton.setIconResource(R.drawable.baseline_play_arrow_white_24dp)
-
-            checkButton.isEnabled = false
-
-            playing = false
-            PlaybackEngine.delete()
-
-            PlaybackEngine.create(this@MainActivity)
-        }
     }
 }
