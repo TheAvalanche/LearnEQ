@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="EQScaleRanged">
+        <attr name="scaleRangedColor" format="color" />
+    </declare-styleable>
+</resources>

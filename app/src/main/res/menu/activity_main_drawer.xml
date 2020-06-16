@@ -8,7 +8,7 @@
             android:id="@+id/nav_master_eq"
             android:title="@string/nav.master_eq" />
         <item
-            android:id="@+id/nav_second"
-            android:title="@string/second" />
+            android:id="@+id/nav_eq_cheat_sheet"
+            android:title="@string/nav.eq_cheat_sheet" />
     </group>
 </menu>

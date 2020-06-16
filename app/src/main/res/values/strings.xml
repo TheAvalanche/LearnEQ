@@ -16,6 +16,6 @@
     <string name="result.match">MATCH</string>
     <string name="result.fail">FAIL</string>
     <string name="nav.master_eq">Master EQ</string>
-    <string name="second">Second</string>
+    <string name="nav.eq_cheat_sheet">EQ Cheat Sheet</string>
     <string name="action_settings">Settings</string>
 </resources>
