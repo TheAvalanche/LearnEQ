@@ -1,4 +1,4 @@
-package lv.kartishev.eq
+package lv.kartishev.eq.components
 
 import android.content.Context
 import android.graphics.Canvas
@@ -8,6 +8,7 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import lv.kartishev.eq.R
 import kotlin.math.ln
 
 

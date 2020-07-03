@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EqCheatSheetFragment">
+    tools:context=".fragment.EqCheatSheetFragment">
 
-    <com.google.android.material.button.MaterialButtonToggleGroup
+<!--    <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/sheet_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,9 +20,30 @@
         app:selectionRequired="true"
         app:singleSelection="true">
 
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+    </com.google.android.material.button.MaterialButtonToggleGroup>-->
 
-    <lv.kartishev.eq.EQScaleRanged
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:id="@+id/sheet_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@id/eq_scale_ranged"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="@string/select_instrument">
+
+        <AutoCompleteTextView
+            android:id="@+id/filled_exposed_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <lv.kartishev.eq.components.EQScaleRanged
         android:id="@+id/eq_scale_ranged"
         android:layout_width="match_parent"
         android:layout_height="0dp"

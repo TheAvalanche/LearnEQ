@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/nav_master_eq"
-        android:name="lv.kartishev.eq.MasterEqFragment"
+        android:name="lv.kartishev.eq.fragment.MasterEqFragment"
         android:label="@string/nav.master_eq"
         tools:layout="@layout/fragment_master_eq">
     </fragment>
     <fragment
         android:id="@+id/nav_eq_cheat_sheet"
-        android:name="lv.kartishev.eq.EqCheatSheetFragment"
+        android:name="lv.kartishev.eq.fragment.EqCheatSheetFragment"
         android:label="@string/nav.eq_cheat_sheet"
         tools:layout="@layout/fragment_eq_cheat_sheet">
     </fragment>

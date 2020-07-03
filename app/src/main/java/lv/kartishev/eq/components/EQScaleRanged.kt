@@ -1,4 +1,4 @@
-package lv.kartishev.eq
+package lv.kartishev.eq.components
 
 import android.content.Context
 import android.graphics.Canvas
@@ -9,6 +9,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.graphics.ColorUtils
+import lv.kartishev.eq.R
+import lv.kartishev.eq.fragment.Range
 import kotlin.math.ln
 import kotlin.random.Random
 
@@ -111,69 +113,15 @@ class EQScaleRanged : View {
         super.onDraw(canvas)
 
         scalePaint.let {
-            canvas.drawLine(
-                width / 10 * 1.0f,
-                0.0f,
-                width / 10 * 1.0f,
-                height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent),
-                it
-            )
-            canvas.drawLine(
-                width / 10 * 2.0f,
-                0.0f,
-                width / 10 * 2.0f,
-                height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent),
-                it
-            )
-            canvas.drawLine(
-                width / 10 * 3.0f,
-                0.0f,
-                width / 10 * 3.0f,
-                height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent),
-                it
-            )
-            canvas.drawLine(
-                width / 10 * 4.0f,
-                0.0f,
-                width / 10 * 4.0f,
-                height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent),
-                it
-            )
-            canvas.drawLine(
-                width / 10 * 5.0f,
-                0.0f,
-                width / 10 * 5.0f,
-                height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent),
-                it
-            )
-            canvas.drawLine(
-                width / 10 * 6.0f,
-                0.0f,
-                width / 10 * 6.0f,
-                height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent),
-                it
-            )
-            canvas.drawLine(
-                width / 10 * 7.0f,
-                0.0f,
-                width / 10 * 7.0f,
-                height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent),
-                it
-            )
-            canvas.drawLine(
-                width / 10 * 8.0f,
-                0.0f,
-                width / 10 * 8.0f,
-                height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent),
-                it
-            )
-            canvas.drawLine(
-                width / 10 * 9.0f,
-                0.0f,
-                width / 10 * 9.0f,
-                height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent),
-                it
-            )
+            canvas.drawLine(width / 10 * 1.0f, 0.0f, width / 10 * 1.0f, height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent), it)
+            canvas.drawLine(width / 10 * 2.0f, 0.0f, width / 10 * 2.0f, height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent), it)
+            canvas.drawLine(width / 10 * 3.0f, 0.0f, width / 10 * 3.0f, height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent), it)
+            canvas.drawLine(width / 10 * 4.0f, 0.0f, width / 10 * 4.0f,height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent), it)
+            canvas.drawLine(width / 10 * 5.0f, 0.0f, width / 10 * 5.0f, height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent), it)
+            canvas.drawLine(width / 10 * 6.0f, 0.0f, width / 10 * 6.0f, height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent), it)
+            canvas.drawLine(width / 10 * 7.0f, 0.0f, width / 10 * 7.0f, height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent), it)
+            canvas.drawLine(width / 10 * 8.0f, 0.0f, width / 10 * 8.0f, height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent), it)
+            canvas.drawLine(width / 10 * 9.0f, 0.0f, width / 10 * 9.0f, height.toFloat() - (it.fontMetrics.descent - it.fontMetrics.ascent), it)
 
             canvas.drawText("50Hz", width / 10 * 1.0f, height.toFloat(), it)
             canvas.drawText("100Hz", width / 10 * 2.0f, height.toFloat(), it)

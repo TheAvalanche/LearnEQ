@@ -1,4 +1,4 @@
-package lv.kartishev.eq
+package lv.kartishev.eq.fragment
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -14,6 +14,10 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.rm.rmswitch.RMTristateSwitch
+import lv.kartishev.eq.PlaybackEngine
+import lv.kartishev.eq.R
+import lv.kartishev.eq.components.EQScale
+import lv.kartishev.eq.components.Level
 
 
 class MasterEqFragment : Fragment() {

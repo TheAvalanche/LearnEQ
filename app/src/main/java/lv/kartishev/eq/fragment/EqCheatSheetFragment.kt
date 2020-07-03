@@ -1,10 +1,14 @@
-package lv.kartishev.eq
+package lv.kartishev.eq.fragment
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.core.view.get
 import androidx.core.view.setPadding
@@ -13,6 +17,8 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import lv.kartishev.eq.R
+import lv.kartishev.eq.components.EQScaleRanged
 import java.io.IOException
 import java.io.InputStream
 import java.nio.charset.Charset
@@ -35,29 +41,24 @@ class EqCheatSheetFragment : Fragment() {
         val eqScale: EQScaleRanged = root.findViewById(R.id.eq_scale_ranged)
         val rangeTitle: TextView = root.findViewById(R.id.range_title)
         val rangeDescription: TextView = root.findViewById(R.id.range_description)
-        val sheetSwitch: MaterialButtonToggleGroup = root.findViewById(R.id.sheet_switch)
 
         val turnsType = object : TypeToken<List<Instrument>>() {}.type
         val instruments = Gson().fromJson<List<Instrument>>(loadJSONFromAsset(), turnsType)
 
-        for (instrument in instruments) {
-            val btnTag = MaterialButton(requireActivity(), null, R.attr.materialButtonOutlinedStyle)
-            btnTag.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            btnTag.text = instrument.name
-            btnTag.setPadding(0)
-            btnTag.setMinHeight(0)
-            btnTag.setMinWidth(0)
-            btnTag.setOnClickListener {
-                eqScale.setRanges(instrument.ranges)
-                rangeTitle.text = ""
-                rangeDescription.text = ""
-            }
-
-            sheetSwitch.addView(btnTag)
+        val adapter: ArrayAdapter<String> = ArrayAdapter(requireContext(), R.layout.dropdown_menu_popup_item, instruments.map { it.name })
+        val editTextFilledExposedDropdown: AutoCompleteTextView = root.findViewById(R.id.filled_exposed_dropdown)
+        editTextFilledExposedDropdown.setAdapter(adapter)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            editTextFilledExposedDropdown.setText(instruments[0].name, false)
+            eqScale.setRanges(instruments[0].ranges)
         }
-
-        eqScale.setRanges(instruments[0].ranges)
-        sheetSwitch.check(sheetSwitch[0].id)
+        editTextFilledExposedDropdown.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            val selectedItem = parent.getItemAtPosition(position).toString()
+            val instrument = instruments.first { it.name == selectedItem }
+            eqScale.setRanges(instrument.ranges)
+            rangeTitle.text = ""
+            rangeDescription.text = ""
+        }
 
         eqScale.setOnRangeChangedListener { r: Range ->
             rangeTitle.text = "${r.title}: ${r.low}Hz - ${r.high}Hz"
