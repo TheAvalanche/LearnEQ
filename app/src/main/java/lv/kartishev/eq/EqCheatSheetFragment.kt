@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.get
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.json.JSONArray
 import java.io.IOException
 import java.io.InputStream
 import java.nio.charset.Charset
@@ -45,15 +45,22 @@ class EqCheatSheetFragment : Fragment() {
             btnTag.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             btnTag.text = instrument.name
             btnTag.setPadding(0)
-            btnTag.setOnClickListener { eqScale.setRanges(instrument.ranges) }
+            btnTag.setMinHeight(0)
+            btnTag.setMinWidth(0)
+            btnTag.setOnClickListener {
+                eqScale.setRanges(instrument.ranges)
+                rangeTitle.text = ""
+                rangeDescription.text = ""
+            }
 
             sheetSwitch.addView(btnTag)
         }
 
-
+        eqScale.setRanges(instruments[0].ranges)
+        sheetSwitch.check(sheetSwitch[0].id)
 
         eqScale.setOnRangeChangedListener { r: Range ->
-            rangeTitle.text = "${r.name}: ${r.low}Hz - ${r.high}Hz"
+            rangeTitle.text = "${r.title}: ${r.low}Hz - ${r.high}Hz"
             rangeDescription.text = r.description
         }
 
@@ -78,6 +85,6 @@ class EqCheatSheetFragment : Fragment() {
     }
 }
 
-data class Range(val low: Long, val high: Long, var name: String, var description: String, var color: Int = Color.argb(120, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)), var selected: Boolean = false)
+data class Range(val low: Long, val high: Long, var title: String, var rangeTitle: String, var description: String, var color: Int = Color.argb(120, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)), var selected: Boolean = false)
 
 data class Instrument(val name: String, val ranges: List<Range>)

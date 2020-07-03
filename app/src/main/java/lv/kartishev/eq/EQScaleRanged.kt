@@ -197,11 +197,11 @@ class EQScaleRanged : View {
             val highPosition = frequencyToPosition(range.high)
             canvas.drawRect(lowPosition, 0.0f, highPosition, height.toFloat(), rangePaint)
 
-            if (range.name.contains("\n")) {
-                canvas.drawText(range.name.split("\n")[0], lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2) - textHeight, cursorPaint)
-                canvas.drawText(range.name.split("\n")[1], lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2) + textHeight, cursorPaint)
+            if (range.rangeTitle.contains("\n")) {
+                canvas.drawText(range.rangeTitle.split("\n")[0], lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2) - textHeight, cursorPaint)
+                canvas.drawText(range.rangeTitle.split("\n")[1], lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2) + textHeight, cursorPaint)
             } else {
-                canvas.drawText(range.name, lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2), cursorPaint)
+                canvas.drawText(range.rangeTitle, lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2), cursorPaint)
             }
 
         }
