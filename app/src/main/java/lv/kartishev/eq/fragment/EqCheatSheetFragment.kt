@@ -86,6 +86,6 @@ class EqCheatSheetFragment : Fragment() {
     }
 }
 
-data class Range(val low: Long, val high: Long, var title: String, var rangeTitle: String, var description: String, var color: Int = Color.argb(120, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)), var selected: Boolean = false)
+data class Range(val low: Long, val high: Long, var title: String, var description: String, var color: Int = Color.argb(120, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)), var selected: Boolean = false)
 
 data class Instrument(val name: String, val ranges: List<Range>)

@@ -6,49 +6,44 @@
         "low": 25,
         "high": 60,
         "title": "Sub-Bass",
-        "rangeTitle": "Sub\nBass",
         "description": " These very low bass frequencies are felt, rather than heard, as with freeway rumbling or an earthquake. These frequencies give your mix a sense of power, even when they only occur occasionally. However, overemphasizing frequencies in this range will result in a muddy mix."
       },
       {
         "low": 60,
         "high": 250,
         "title": "Bass",
-        "rangeTitle": "Bass",
         "description": "Because this range contains the fundamental notes of the rhythm section, any EQ changes will affect the balance of your mix, making it fat or thin. Too much emphasis will make for a boomy mix."
       },
       {
         "low": 250,
         "high": 500,
         "title": "Low-Mids",
-        "rangeTitle": "Low\nMids",
+        "rangeTitle": "Low-Mids",
         "description": "Boosting the range from 250 Hz to 500 Hz will accent ambience in the studio and will add clarity to bass and lower frequency instruments."
       },
       {
         "low": 500,
         "high": 2000,
         "title": "Mids",
-        "rangeTitle": "Mids",
         "description": "The range between 500 Hz and 2 kHz can make midrange instruments (guitar, snare, saxophone, etc.) “honky,” and too much boost between 1 kHz and 2 kHz can make your mix sound thin or “tinny.”"
       },
       {
         "low": 2000,
         "high": 4000,
         "title": "Upper-Mids",
-        "rangeTitle": "Upper\nMids",
+        "rangeTitle": "Upper-Mids",
         "description": "The attack portion of percussive and rhythm instruments occurs in this range. High mids are also responsible for the projection of midrange instruments."
       },
       {
         "low": 4000,
         "high": 6000,
         "title": "Presence",
-        "rangeTitle": "Pre\nsence",
         "description": "This frequency range is partly responsible for the clarity of a mix and provides a measure of control over the perception of distance. If you boost this frequency range, the mix will be perceived as closer to the listener. Attenuating around 5 kHz will make the mix sound further away but also more transparent."
       },
       {
         "low": 6000,
         "high": 25600,
         "title": "Highs",
-        "rangeTitle": "Highs",
         "description": "While this range controls the brilliance and clarity of your mix, boosting it too much can cause some clipping, so keep an eye on your main meter."
       }
     ]
@@ -60,21 +55,18 @@
         "low": 25,
         "high": 40,
         "title": "Low End Rumble",
-        "rangeTitle": "Rumble",
         "description": "Highpass 20-40 Hz range with 48 dB filter slope. Getting rid of subsonic content here preserves headroom. 24-48 dB slopes work perfectly for such task (keep Q factor set by default 0.71)."
       },
       {
         "low": 90,
         "high": 145,
         "title": "Body/Weight",
-        "rangeTitle": "Body",
         "description": "This range is the body and meat of the kick sound. Boost 2-3 dB with wide Q within 90-145 Hz range if more presence is needed. Keep an eye on meters, boosts in this range increase levels quickly so you may want to compensate for it."
       },
       {
         "low": 150,
         "high": 600,
         "title": "Mud/Boxiness",
-        "rangeTitle": "Boxiness",
         "description": "Sweep 145-500 Hz band with Q set high enough to get 6-8 dB of gain resulting in a resonant peak. Tweak the band knob while listening carefully – frequencies that sound most dissonant should be attenuated carefully. Mud mostly resides within 250-350 Hz range."
       },
       {
@@ -88,7 +80,6 @@
         "low": 4000,
         "high": 8000,
         "title": "Air/Click",
-        "rangeTitle": "Air",
         "description": "Try boosting 5-8 kHz range with high shelf curve if more presence is needed. Keep watch on the 8-12 kHz band though as boosting there may add hiss. You can find the click sound of the beater up around the 3-8 kHz range, a peaking band works well here."
       }
     ]
@@ -100,35 +91,30 @@
         "low": 25,
         "high": 120,
         "title": "Low End Rumble",
-        "rangeTitle": "Rumble",
         "description": "Highpass carefully from 100 Hz upwards. 12-24 dB steep highpass filters may be used. Use your ears and choose what sounds best."
       },
       {
         "low": 200,
         "high": 400,
         "title": "Body",
-        "rangeTitle": "Body",
         "description": "This is the central area of sound in most snare drums. Most fundamental characteristics live somewhere inside of this range. Boost 2-3 dB with wide Q within this range to make the snare sound heavier."
       },
       {
         "low": 250,
         "high": 600,
         "title": "Ring",
-        "rangeTitle": "Ring",
         "description": "This range is responsible for the all-too-undesirable “ringing” or hollow tone of the snare. Search within 250-600 Hz range for it. Sweep the band with a resonant peak, attenuate unpleasant sounding frequencies with narrow Q cuts."
       },
       {
         "low": 2000,
         "high": 4000,
         "title": "Bang/Smack",
-        "rangeTitle": "Bang",
         "description": "Boost some decibels at 2 kHz for more, boost 2-4 kHz range slightly for extra bite and attack."
       },
       {
         "low": 4000,
         "high": 10000,
         "title": "Air/Definition",
-        "rangeTitle": "Air",
         "description": "Boosting 4-6 kHz range brings more air. If is still sounds off, boost 7-10 kHz range slightly as that should bring extra definition. The cracking sound made by the stick on the drum head is often around 8000 Hz."
       }
     ]
@@ -140,29 +126,25 @@
         "low": 25,
         "high": 100,
         "title": "Low End Rumble",
-        "rangeTitle": "Rumble",
         "description": "Highpass carefully from 70 Hz upwards but don’t overdo, as you may thin out the sound too much."
       },
       {
         "low": 100,
         "high": 300,
         "title": "Body/Thump",
-        "rangeTitle": "Body",
         "description": "Boost 100-300 Hz range to add weight. Don’t overdo as boosting too much will sound boomy. While it depends on the actual tuning of the drum, you should be careful while mixing here as too much can make your toms sound muddy, while too little can create a thin tone."
       },
       {
         "low": 3000,
         "high": 5000,
         "title": "Attack",
-        "rangeTitle": "Attack",
         "description": "This is where you’ll find the attack tones from the drumstick hitting the head of the drum itself. Boost 3-4 kHz for extra bite."
       },
       {
         "low": 5000,
         "high": 12000,
         "title": "Presence/Air",
-        "rangeTitle": "Air",
-        "description": "Boost 3-4 dB within 6-9 kHz band to accentuate stick hits.\n2-3 dB high shelf boost within 5-12 kHz range will bring extra air and presence."
+        "description": "Boost 3-4 dB within 6-9 kHz band to accentuate stick hits. 2-3 dB high shelf boost within 5-12 kHz range will bring extra air and presence."
       }
     ]
   },
@@ -173,21 +155,18 @@
         "low": 25,
         "high": 200,
         "title": "Low End",
-        "rangeTitle": "Low End",
         "description": "Highpass 100-200 Hz to get rid of unnecessary low end."
       },
       {
         "low": 200,
         "high": 400,
         "title": "Gong/Clank/Chink",
-        "rangeTitle": "Gong",
         "description": "Highpass up to 400 Hz to get rid of “gong” sounds. Boost 200-300 Hz range slightly for more “chink” but don’t overdo – as it may sound muddy."
       },
       {
         "low": 6000,
         "high": 15000,
         "title": "Air/Brightness",
-        "rangeTitle": "Air",
         "description": "Sweep from 6 kHz upwards to find the “tsss” part of the sound and boost slightly when done for more air. Attenuating 10 kHz range will reduce harshness while boosting 14-15 kHz will bring more brightness, but be careful as too much can create an extremely shrill tone."
       }
     ]
@@ -199,42 +178,36 @@
         "low": 25,
         "high": 70,
         "title": "Low End Rumble",
-        "rangeTitle": "Rumble",
         "description": "Highpass 30-70 Hz range to get rid of subsonic content and save headroom."
       },
       {
         "low": 70,
         "high": 200,
         "title": "Body/Girth",
-        "rangeTitle": "Body",
         "description": "Allows the listener to feel the power of the bassline as most of the energy that sustains from the bass strings resides here. To accentuate, boost moderately with wide Q starting from 80-100 Hz. Basses that sound boomy may be cleaned up around 180-200 Hz."
       },
       {
         "low": 250,
         "high": 400,
         "title": "Mud",
-        "rangeTitle": "Mud",
         "description": "Mud mostly resides within 250-400 Hz range. Try attenuating 3 dB at 200-220 Hz as a starting point but be careful not to affect the low-mid girth negatively."
       },
       {
         "low": 400,
         "high": 800,
         "title": "Definition",
-        "rangeTitle": "Definition",
         "description": "This range helps the listener to pick out the melody of the bassline. Boosting 400 Hz will make it more readable at low listening levels while boosting 700-900 Hz range will bring more energy and power."
       },
       {
         "low": 1200,
         "high": 1500,
         "title": "Attack",
-        "rangeTitle": "Attack",
         "description": "Boosting 1.2-1.5 kHz range will bring out more attack while adding 2-3 dB at 3 kHz brings out more finger and fret noises. Try going further up to 5 kHz to check for anything worth boosting. Don’t overdo unless you want the bassline to dominate the mix."
       },
       {
         "low": 2000,
         "high": 5000,
         "title": "String Noise",
-        "rangeTitle": "String Noise",
         "description": "Where the gliding sound of fingers across strings is found. This high frequency can be attenuated to remove some of the shrill “shwoop” noises caused by playing."
       }
     ]
@@ -246,35 +219,30 @@
         "low": 25,
         "high": 120,
         "title": "Low End Rumble",
-        "rangeTitle": "Rumble",
         "description": "Although every case is different, you can usually (safely) eliminate this band with a high pass filter, as there typically aren’t any useful frequencies down here besides ones that introduce flabby, boomy noise."
       },
       {
         "low": 120,
         "high": 300,
         "title": "Body/Thickness",
-        "rangeTitle": "Body",
         "description": "Most of the electric guitar’s beefy sound and characteristic live here. Boost 150 to 300 Hz range moderately to expose more body of the guitar riffs. Be careful to not overrun that part of the spectrum with other instruments. 1-2 dB wide boost should do."
       },
       {
         "low": 300,
         "high": 1000,
         "title": "Character",
-        "rangeTitle": "Character",
         "description": "Much of the guitar’s “life” lives in these frequencies. Many of the familiar tones that make an electric sound like an electric are within here, but play with them carefully, as the snare lives in this band as well."
       },
       {
         "low": 1000,
         "high": 2000,
         "title": "Honk",
-        "rangeTitle": "Honk",
         "description": "You may eliminate many of the harsh or “honky” characteristics of the tone with a centered, wide cut within this range."
       },
       {
         "low": 3000,
         "high": 10000,
         "title": "Presence/Attack/Brightness",
-        "rangeTitle": "Presence",
         "description": "Boost around 3 kHz for extra attack on solo guitars but attenuate on riff guitar parts. Attenuate 3-8 kHz band if the vocal is present. Boost 10-13 kHz range with high shelf for extra brightness."
       }
     ]
@@ -286,35 +254,30 @@
         "low": 25,
         "high": 70,
         "title": "Low End Rumble",
-        "rangeTitle": "Rumble",
         "description": "When mic’ing an acoustic, you’ll often find many of the boomy, explosive low-end tones within this range. Although a bit of it can add warmth and fullness, it will often cloud up a mix with a full band and can typically be removed with high-pass filter."
       },
       {
         "low": 80,
         "high": 400,
         "title": "Body/Wood",
-        "rangeTitle": "Body/Wood",
         "description": "Reduce at 200 Hz to remove muddiness. Boost 200-400 Hz range carefully to add more weight. Boosts here can add fullness to solo instruments but may create conflicts in a dense mix, so attenuate here if that’s the case. 200Hz - 400Hz is where the majority of the acoustic’s body lives. Be careful when working in this range, as it’s easy to flatten the tone and lose its life with too many cuts."
       },
       {
         "low": 500,
         "high": 1000,
         "title": "Warmth/Fullness",
-        "rangeTitle": "Warmth",
         "description": "Boost 500-700Hz to add more warmth and 1kHz to bring more fullness."
       },
       {
         "low": 1500,
         "high": 2000,
         "title": "Definition",
-        "rangeTitle": "Definition",
         "description": "The 1.5-2.5 kHz range is responsible for tiny intricacies in chords and string-picking, but boosting it too far can make guitar sound aggressive and harsh."
       },
       {
         "low": 7000,
         "high": 10000,
         "title": "Attack/Air",
-        "rangeTitle": "Air",
         "description": "A slight shelf boost in this range will help an acoustic sound brighter and airier. Boost around 5 kHz if more attack is needed and around 7 kHz for some additional sparkle. If it still sounds off, try boosting around 10 kHz and 12kHz spots to achieve desired result."
       }
     ]
@@ -326,42 +289,36 @@
         "low": 25,
         "high": 160,
         "title": "Low End Rumble",
-        "rangeTitle": "Rumble",
         "description": "Highpass 80-160 Hz to taste and use good sound design judgement."
       },
       {
         "low": 160,
         "high": 450,
         "title": "Mud",
-        "rangeTitle": "Mud",
         "description": "Highpass 80-160 Hz to taste and use good sound design judgement."
       },
       {
         "low": 1000,
         "high": 2000,
         "title": "Character",
-        "rangeTitle": "Character",
         "description": "Most attributes of synths can be found here, so cutting or lifting certain frequencies within this range can help it to either stick out or hide away. Mix as appropriate to the individual synth / patch."
       },
       {
         "low": 2000,
         "high": 3000,
         "title": "Presence",
-        "rangeTitle": "Presence",
         "description": "Most attributes of synths can be found here, so cutting or lifting certain frequencies within this range can help it to either stick out or hide away. Mix as appropriate to the individual synth / patch."
       },
       {
         "low": 3000,
         "high": 4000,
         "title": "Clarity",
-        "rangeTitle": "Clarity",
         "description": "Just like the guitars and vocals, you can find the exciting, airy tonal characteristics here. Boost 3-4 kHz range to add excitement and clarity. Just like the other instruments as well, too much can be shrill and unpleasant."
       },
       {
         "low": 7000,
         "high": 9000,
         "title": "Sharpness",
-        "rangeTitle": "Sharpness",
         "description": "Boost the 7-9 kHz frequency range to add more sharpness and clarity, use wide Q factor."
       }
     ]
@@ -373,42 +330,36 @@
         "low": 25,
         "high": 100,
         "title": "Low End Rumble",
-        "rangeTitle": "Rumble",
         "description": "Most sounds in this range are garbage, whether it be noise from handling the mic, vibrations from the floor or air conditioning units. Highpass up to 100-120 Hz to clean things up (note that “P” plosives reside around 90-120Hz as a general rule)."
       },
       {
         "low": 200,
         "high": 500,
         "title": "Mud",
-        "rangeTitle": "Mud",
         "description": "Try 3-4 dB cuts within the 325-350 Hz range on male vocals. Boost at 200 Hz can sometimes add fullness. Female vocals may run a bit higher in the spectrum, but this is a good starting point to search for boomy tones that need to be attenuated."
       },
       {
         "low": 800,
         "high": 1500,
         "title": "Honkiness/Nasality",
-        "rangeTitle": "Honkiness",
         "description": "Boosting these frequencies can help make some singer’s lyrics more intelligible. Cuts in 800-1,5 kHz range can reduce honkiness or boxiness. Use narrow Q factor."
       },
       {
         "low": 2500,
         "high": 4500,
         "title": "Definition",
-        "rangeTitle": "Definition",
         "description": "You can add energy, buzz and definition to a vocal track right around 3 kHz. It’s important to be careful here as too much of this band can make vocals actually painful to listen to. Use with care. Try a narrow cut in the 2.5 kHz to 4 kHz range to soften vocals."
       },
       {
         "low": 5000,
         "high": 10000,
         "title": "Clarity",
-        "rangeTitle": "Clarity",
         "description": "Gentle boost in 5-10 kHz range may add extra presence to a dull vocal. Check this range for sibilance, most de-essers handle this range."
       },
       {
         "low": 10000,
         "high": 16000,
         "title": "Air",
-        "rangeTitle": "Air",
         "description": "To add more air do high shelf boost around 10 kHz but don’t overdo. Let your ears rest and listen to it the next day to make sure you really need it. Cuts in this range reduce the “s” sound."
       }
     ]

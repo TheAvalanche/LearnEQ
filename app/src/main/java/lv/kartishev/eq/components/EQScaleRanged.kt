@@ -5,6 +5,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.text.TextPaint
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -23,6 +25,7 @@ class EQScaleRanged : View {
     private var scalePaint = Paint()
     private var rangePaint = Paint()
     private var cursorPaint = Paint()
+    private var textPaint = TextPaint()
 
     private var textHeight = 0
 
@@ -89,6 +92,14 @@ class EQScaleRanged : View {
         cursorPaint.getTextBounds("1000Hz", 0, "1000Hz".length, bounds)
         textHeight = bounds.height()
 
+        textPaint = TextPaint()
+        textPaint.color = Color.WHITE
+        textPaint.style = Paint.Style.FILL
+        textPaint.isAntiAlias = true
+        textPaint.textSize = 14 * resources.displayMetrics.density
+        textPaint.textAlign = Paint.Align.CENTER
+        textPaint.isLinearText = true
+
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -145,12 +156,9 @@ class EQScaleRanged : View {
             val highPosition = frequencyToPosition(range.high)
             canvas.drawRect(lowPosition, 0.0f, highPosition, height.toFloat(), rangePaint)
 
-            if (range.rangeTitle.contains("\n")) {
-                canvas.drawText(range.rangeTitle.split("\n")[0], lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2) - textHeight, cursorPaint)
-                canvas.drawText(range.rangeTitle.split("\n")[1], lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2) + textHeight, cursorPaint)
-            } else {
-                canvas.drawText(range.rangeTitle, lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2), cursorPaint)
-            }
+
+            val txt = TextUtils.ellipsize(range.title, textPaint, highPosition - lowPosition, TextUtils.TruncateAt.END)
+            canvas.drawText(txt.toString(), lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2), textPaint)
 
         }
 
