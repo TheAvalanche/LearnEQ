@@ -60,7 +60,7 @@
       {
         "low": 60,
         "high": 80,
-        "title": "Thump",
+        "title": "Punch",
         "description": "Boost 60Hz for thicker low end. Or Boost a bit higher up to 80Hz for fast songs with double-kick content."
       },
       {
@@ -96,31 +96,31 @@
         "low": 20,
         "high": 120,
         "title": "Low End Rumble",
-        "description": "Highpass carefully from 100 Hz upwards. 12-24 dB steep highpass filters may be used. Use your ears and choose what sounds best."
+        "description": "High-pass carefully from 100 Hz upwards. 12-24 dB steep high-pass filters may be used. Try not to cut fundamental frequencies of snare."
       },
       {
-        "low": 200,
-        "high": 400,
-        "title": "Body",
-        "description": "This is the central area of sound in most snare drums. Most fundamental characteristics live somewhere inside of this range. Boost 2-3 dB with wide Q within this range to make the snare sound heavier."
+        "low": 150,
+        "high": 250,
+        "title": "Punch",
+        "description": "Boost to emphasize low-end body of snare."
       },
       {
-        "low": 250,
-        "high": 600,
-        "title": "Ring",
-        "description": "This range is responsible for the all-too-undesirable “ringing” or hollow tone of the snare. Search within 250-600 Hz range for it. Sweep the band with a resonant peak, attenuate unpleasant sounding frequencies with narrow Q cuts."
+        "low": 400,
+        "high": 800,
+        "title": "Boxiness",
+        "description": "Too much here can cause boxiness."
       },
       {
-        "low": 2000,
-        "high": 4000,
-        "title": "Bang/Smack",
-        "description": "Boost some decibels at 2 kHz for more, boost 2-4 kHz range slightly for extra bite and attack."
+        "low": 1000,
+        "high": 5000,
+        "title": "Attack",
+        "description": "Boost somewhere around these frequencies to add attack to the snare. Too much can sound harsh."
       },
       {
-        "low": 4000,
+        "low": 6000,
         "high": 10000,
-        "title": "Air/Definition",
-        "description": "Boosting 4-6 kHz range brings more air. If is still sounds off, boost 7-10 kHz range slightly as that should bring extra definition. The cracking sound made by the stick on the drum head is often around 8000 Hz."
+        "title": "Air",
+        "description": "Boost here (try both bell and high-shelf) to add some brightness to the snare."
       }
     ]
   },
@@ -129,27 +129,33 @@
     "ranges": [
       {
         "low": 20,
-        "high": 100,
+        "high": 80,
         "title": "Low End Rumble",
-        "description": "Highpass carefully from 70 Hz upwards but don’t overdo, as you may thin out the sound too much."
+        "description": "High-pass to preserve headroom."
       },
       {
-        "low": 100,
+        "low": 80,
+        "high": 150,
+        "title": "Punch",
+        "description": "Boost to add some power to the toms, or cut to reduce some boominess."
+      },
+      {
+        "low": 150,
         "high": 300,
-        "title": "Body/Thump",
-        "description": "Boost 100-300 Hz range to add weight. Don’t overdo as boosting too much will sound boomy. While it depends on the actual tuning of the drum, you should be careful while mixing here as too much can make your toms sound muddy, while too little can create a thin tone."
+        "title": "Mud",
+        "description": "Reduce with narrow cut here to get rid of mudiness. But do it with caution, not to cut the body of toms."
       },
       {
-        "low": 3000,
-        "high": 5000,
-        "title": "Attack",
-        "description": "This is where you’ll find the attack tones from the drumstick hitting the head of the drum itself. Boost 3-4 kHz for extra bite."
+        "low": 400,
+        "high": 800,
+        "title": "Boxiness",
+        "description": "Reduce somewhere in these frequencies to reduce boxiness."
       },
       {
         "low": 5000,
-        "high": 12000,
-        "title": "Presence/Air",
-        "description": "Boost 3-4 dB within 6-9 kHz band to accentuate stick hits. 2-3 dB high shelf boost within 5-12 kHz range will bring extra air and presence."
+        "high": 7000,
+        "title": "Attack",
+        "description": "Great for adding snap and attack. Too much can add harshness. You can often see where a beater/stick attack lives on a spectrum analyser."
       }
     ]
   },
@@ -158,21 +164,27 @@
     "ranges": [
       {
         "low": 20,
-        "high": 200,
+        "high": 500,
         "title": "Low End",
-        "description": "Highpass 100-200 Hz to get rid of unnecessary low end."
+        "description": "High-pass pretty high if you want to use overheads only for cymbals (like for metal). Or filter up to around 200 if you want overheads to glue your shells too. "
       },
       {
-        "low": 200,
-        "high": 400,
-        "title": "Gong/Clank/Chink",
-        "description": "Highpass up to 400 Hz to get rid of “gong” sounds. Boost 200-300 Hz range slightly for more “chink” but don’t overdo – as it may sound muddy."
+        "low": 500,
+        "high": 800,
+        "title": "Boxiness",
+        "description": "Cut this not to sound boxy and flat."
       },
       {
-        "low": 6000,
-        "high": 15000,
-        "title": "Air/Brightness",
-        "description": "Sweep from 6 kHz upwards to find the “tsss” part of the sound and boost slightly when done for more air. Attenuating 10 kHz range will reduce harshness while boosting 14-15 kHz will bring more brightness, but be careful as too much can create an extremely shrill tone."
+        "low": 2000,
+        "high": 4000,
+        "title": "Harshness",
+        "description": "Reduce this range to give room for guitars and vocals and make cymbals less harsh."
+      },
+      {
+        "low": 8000,
+        "high": 20000,
+        "title": "Air",
+        "description": "Boost with shelf for clarity and shine."
       }
     ]
   },
