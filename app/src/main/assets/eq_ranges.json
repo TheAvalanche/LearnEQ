@@ -55,32 +55,37 @@
         "low": 20,
         "high": 40,
         "title": "Low End Rumble",
-        "description": "Highpass 20-40 Hz range with 48 dB filter slope. Getting rid of subsonic content here preserves headroom. 24-48 dB slopes work perfectly for such task (keep Q factor set by default 0.71)."
+        "description": "High-pass 20-40 Hz range to get rid of low end rumble, to preserve headroom."
       },
       {
-        "low": 90,
-        "high": 145,
-        "title": "Body/Weight",
-        "description": "This range is the body and meat of the kick sound. Boost 2-3 dB with wide Q within 90-145 Hz range if more presence is needed. Keep an eye on meters, boosts in this range increase levels quickly so you may want to compensate for it."
+        "low": 60,
+        "high": 80,
+        "title": "Thump",
+        "description": "Boost 60Hz for thicker low end. Or Boost a bit higher up to 80Hz for fast songs with double-kick content."
       },
       {
         "low": 150,
-        "high": 600,
-        "title": "Mud/Boxiness",
-        "description": "Sweep 145-500 Hz band with Q set high enough to get 6-8 dB of gain resulting in a resonant peak. Tweak the band knob while listening carefully – frequencies that sound most dissonant should be attenuated carefully. Mud mostly resides within 250-350 Hz range."
+        "high": 300,
+        "title": "Mud",
+        "description": "Too much content around 200Hz can cause muddiness"
       },
       {
-        "low": 2000,
+        "low": 400,
+        "high": 900,
+        "title": "Boxiness",
+        "description": "Too much content around 500Hz and 800Hz can cause boxiness"
+      },
+      {
+        "low": 1000,
         "high": 4000,
-        "title": "Knock/Attack",
-        "rangeTitle": "Attack",
-        "description": "Check 2-4 kHz range for the extra attack. Stay moderate with 2-3 dB bell curve boosts (high shelf and tilt EQs will work nicely as well). Working on this area provides a “bouncing basketball” type of ‘thwack’ tone."
+        "title": "Presence",
+        "description": "Boosting somewhere within this range makes beater attack to cut through the mix and make kick audible."
       },
       {
         "low": 4000,
         "high": 8000,
-        "title": "Air/Click",
-        "description": "Try boosting 5-8 kHz range with high shelf curve if more presence is needed. Keep watch on the 8-12 kHz band though as boosting there may add hiss. You can find the click sound of the beater up around the 3-8 kHz range, a peaking band works well here."
+        "title": "Click",
+        "description": "Click of the kick usually resides around 4kHz or octave higher - at 8kHz. Boost more for extreme metal genres, less for rock or other genres."
       }
     ]
   },
