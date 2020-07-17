@@ -12,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.core.graphics.ColorUtils
 import lv.kartishev.eq.R
+import lv.kartishev.eq.fragment.Position
 import lv.kartishev.eq.fragment.Range
 import kotlin.math.ln
 import kotlin.random.Random
@@ -107,7 +108,7 @@ class EQScaleRanged : View {
 
         when (event.action) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
-                val range = ranges.find { it.low <= selectedFrequency && it.high >= selectedFrequency }
+                val range = ranges.find { it.low <= selectedFrequency && it.high >= selectedFrequency && (it.position == Position.FULL || (it.position == Position.HIGH && event.y <= height / 2) || (it.position == Position.LOW && event.y > height / 2))}
                 range?.let {
                     ranges.forEach { r -> r.selected = false }
                     onRangeChangedListener.invoke(it)
@@ -146,19 +147,62 @@ class EQScaleRanged : View {
         }
 
         for (range in ranges) {
+            if (range.point != 0L) {
+                val pointPosition = frequencyToPosition(range.point)
+                val lowPosition = pointPosition - width / 40
+                range.low = positionToFrequency(lowPosition)
+                val highPosition = pointPosition + width / 40
+                range.high = positionToFrequency(highPosition)
+            }
+        }
+
+        for ((index, range) in ranges.withIndex()) {
+            range.position = Position.FULL
+
+            if (index == 0 && ranges[index + 1].low < range.high) {
+                range.position = Position.LOW
+            }
+
+            if (index > 0 && index < ranges.size - 1 && ranges[index + 1].low < range.high) {
+                range.position = Position.LOW
+            }
+
+            if (index > 0 && ranges[index - 1].high > range.low && ranges[index - 1].position == Position.LOW) {
+                range.position = Position.HIGH
+            }
+            if (index > 0 && ranges[index - 1].high > range.low && ranges[index - 1].position == Position.HIGH) {
+                range.position = Position.LOW
+            }
+        }
+
+        for (range in ranges) {
             if (range.selected) {
                 rangePaint.color = ColorUtils.setAlphaComponent(range.color, 180)
             } else {
                 rangePaint.color = range.color
             }
 
-            val lowPosition = frequencyToPosition(range.low)
-            val highPosition = frequencyToPosition(range.high)
-            canvas.drawRect(lowPosition, 0.0f, highPosition, height.toFloat(), rangePaint)
+            val lowPosition = frequencyToPosition(if (range.low <= 25) 25 else range.low)
+            val highPosition = frequencyToPosition(if (range.high >= 20000) 25600 else range.high)
 
+            if (range.position == Position.FULL) {
+                canvas.drawRect(lowPosition, 0.0f, highPosition, height.toFloat(), rangePaint)
 
-            val txt = TextUtils.ellipsize(range.title, textPaint, highPosition - lowPosition, TextUtils.TruncateAt.END)
-            canvas.drawText(txt.toString(), lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2), textPaint)
+                val txt = TextUtils.ellipsize(range.title, textPaint, highPosition - lowPosition, TextUtils.TruncateAt.END)
+                canvas.drawText(txt.toString(), lowPosition + (highPosition - lowPosition) / 2, (height.toFloat() / 2) + (textHeight / 2), textPaint)
+            }
+            if (range.position == Position.HIGH) {
+                canvas.drawRect(lowPosition, 0.0f, highPosition, height.toFloat() / 2, rangePaint)
+
+                val txt = TextUtils.ellipsize(range.title, textPaint, highPosition - lowPosition, TextUtils.TruncateAt.END)
+                canvas.drawText(txt.toString(), lowPosition + (highPosition - lowPosition) / 2, ((height.toFloat() / 2) - (height.toFloat() / 4)) + (textHeight / 2), textPaint)
+            }
+            if (range.position == Position.LOW) {
+                canvas.drawRect(lowPosition, height.toFloat() / 2, highPosition, height.toFloat(), rangePaint)
+
+                val txt = TextUtils.ellipsize(range.title, textPaint, highPosition - lowPosition, TextUtils.TruncateAt.END)
+                canvas.drawText(txt.toString(), lowPosition + (highPosition - lowPosition) / 2, ((height.toFloat() / 2) + (height.toFloat() / 4)) + (textHeight / 2), textPaint)
+            }
 
         }
 

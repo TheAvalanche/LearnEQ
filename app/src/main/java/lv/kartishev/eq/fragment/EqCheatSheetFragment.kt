@@ -61,7 +61,11 @@ class EqCheatSheetFragment : Fragment() {
         }
 
         eqScale.setOnRangeChangedListener { r: Range ->
-            rangeTitle.text = "${r.title}: ${r.low}Hz - ${r.high}Hz"
+            if (r.point == 0L) {
+                rangeTitle.text = "${r.title}: ${r.low}Hz - ${r.high}Hz"
+            } else {
+                rangeTitle.text = "${r.title}: ${r.point}Hz"
+            }
             rangeDescription.text = r.description
         }
 
@@ -86,6 +90,10 @@ class EqCheatSheetFragment : Fragment() {
     }
 }
 
-data class Range(val low: Long, val high: Long, var title: String, var description: String, var color: Int = Color.argb(120, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)), var selected: Boolean = false)
+data class Range(var low: Long = 0L, var high: Long = 0L, var point: Long = 0L, var title: String, var description: String, var color: Int = Color.argb(120, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)), var selected: Boolean = false, var position: Position = Position.FULL)
 
 data class Instrument(val name: String, val ranges: List<Range>)
+
+enum class Position {
+    LOW, HIGH, FULL
+}

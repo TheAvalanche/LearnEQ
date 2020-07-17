@@ -3,7 +3,7 @@
     "name": "All",
     "ranges": [
       {
-        "low": 25,
+        "low": 20,
         "high": 60,
         "title": "Sub-Bass",
         "description": " These very low bass frequencies are felt, rather than heard, as with freeway rumbling or an earthquake. These frequencies give your mix a sense of power, even when they only occur occasionally. However, overemphasizing frequencies in this range will result in a muddy mix."
@@ -42,7 +42,7 @@
       },
       {
         "low": 6000,
-        "high": 25600,
+        "high": 20000,
         "title": "Highs",
         "description": "While this range controls the brilliance and clarity of your mix, boosting it too much can cause some clipping, so keep an eye on your main meter."
       }
@@ -52,7 +52,7 @@
     "name": "Kick",
     "ranges": [
       {
-        "low": 25,
+        "low": 20,
         "high": 40,
         "title": "Low End Rumble",
         "description": "Highpass 20-40 Hz range with 48 dB filter slope. Getting rid of subsonic content here preserves headroom. 24-48 dB slopes work perfectly for such task (keep Q factor set by default 0.71)."
@@ -88,7 +88,7 @@
     "name": "Snare",
     "ranges": [
       {
-        "low": 25,
+        "low": 20,
         "high": 120,
         "title": "Low End Rumble",
         "description": "Highpass carefully from 100 Hz upwards. 12-24 dB steep highpass filters may be used. Use your ears and choose what sounds best."
@@ -123,7 +123,7 @@
     "name": "Toms",
     "ranges": [
       {
-        "low": 25,
+        "low": 20,
         "high": 100,
         "title": "Low End Rumble",
         "description": "Highpass carefully from 70 Hz upwards but don’t overdo, as you may thin out the sound too much."
@@ -152,7 +152,7 @@
     "name": "Overheads",
     "ranges": [
       {
-        "low": 25,
+        "low": 20,
         "high": 200,
         "title": "Low End",
         "description": "Highpass 100-200 Hz to get rid of unnecessary low end."
@@ -175,40 +175,50 @@
     "name": "Bass",
     "ranges": [
       {
-        "low": 25,
-        "high": 70,
+        "low": 20,
+        "high": 50,
         "title": "Low End Rumble",
-        "description": "Highpass 30-70 Hz range to get rid of subsonic content and save headroom."
+        "description": "High-pass to get rid of low-end rumble."
       },
       {
-        "low": 70,
-        "high": 200,
-        "title": "Body/Girth",
-        "description": "Allows the listener to feel the power of the bassline as most of the energy that sustains from the bass strings resides here. To accentuate, boost moderately with wide Q starting from 80-100 Hz. Basses that sound boomy may be cleaned up around 180-200 Hz."
+        "point": 50,
+        "title": "Low End",
+        "description": "Boost to fill out the bottom. Cut to reduce boominess and increase clarity. Check with kick."
+      },
+      {
+        "low": 60,
+        "high": 250,
+        "title": "Fundamental",
+        "description": "Boost to increase lower fundamental frequencies. Too muck can sound boomy. A good balance should sound fat and powerful."
       },
       {
         "low": 250,
-        "high": 400,
-        "title": "Mud",
-        "description": "Mud mostly resides within 250-400 Hz range. Try attenuating 3 dB at 200-220 Hz as a starting point but be careful not to affect the low-mid girth negatively."
+        "high": 750,
+        "title": "Clarity",
+        "description": "Boost to improve bass clarity and resonance. Boost to fill out a thin bass."
       },
       {
-        "low": 400,
-        "high": 800,
-        "title": "Definition",
-        "description": "This range helps the listener to pick out the melody of the bassline. Boosting 400 Hz will make it more readable at low listening levels while boosting 700-900 Hz range will bring more energy and power."
-      },
-      {
-        "low": 1200,
-        "high": 1500,
+        "low": 800,
+        "high": 3000,
         "title": "Attack",
-        "description": "Boosting 1.2-1.5 kHz range will bring out more attack while adding 2-3 dB at 3 kHz brings out more finger and fret noises. Try going further up to 5 kHz to check for anything worth boosting. Don’t overdo unless you want the bassline to dominate the mix."
+        "description": "Boost to add presence. Boost to accentuate punch/attack."
       },
       {
-        "low": 2000,
-        "high": 5000,
+        "low": 5000,
+        "high": 7000,
         "title": "String Noise",
-        "description": "Where the gliding sound of fingers across strings is found. This high frequency can be attenuated to remove some of the shrill “shwoop” noises caused by playing."
+        "description": "Cut to reduce or add to bring fret/finger/string noise."
+      },
+      {
+        "low": 8000,
+        "high": 14000,
+        "title": "Ring",
+        "description": "Cut with a thin Q to remove unwanted harmonics. Sometimes all this range can be filtered, not to mask guitar. Too much content here can sound noisy."
+      },
+      {
+        "point": 15000,
+        "title": "Air",
+        "description": "Boost to add 'air'. Can make virtual bass sound more natural."
       }
     ]
   },
@@ -216,34 +226,62 @@
     "name": "Guitar",
     "ranges": [
       {
-        "low": 25,
-        "high": 120,
+        "low": 20,
+        "high": 100,
         "title": "Low End Rumble",
-        "description": "Although every case is different, you can usually (safely) eliminate this band with a high pass filter, as there typically aren’t any useful frequencies down here besides ones that introduce flabby, boomy noise."
+        "description": "High-pass to get rid of low-end rumble. Range can change for low tuned guitars."
       },
       {
-        "low": 120,
-        "high": 300,
-        "title": "Body/Thickness",
-        "description": "Most of the electric guitar’s beefy sound and characteristic live here. Boost 150 to 300 Hz range moderately to expose more body of the guitar riffs. Be careful to not overrun that part of the spectrum with other instruments. 1-2 dB wide boost should do."
+        "point": 100,
+        "title": "Low End",
+        "description": "Cut to reduce boominess. Too much can sound muddy. Too little can sound thin. Boost in solo to bring back lows."
       },
       {
-        "low": 300,
-        "high": 1000,
-        "title": "Character",
-        "description": "Much of the guitar’s “life” lives in these frequencies. Many of the familiar tones that make an electric sound like an electric are within here, but play with them carefully, as the snare lives in this band as well."
+        "point": 250,
+        "title": "Punch",
+        "description": "Boost for more punch. Cut to reduce overlap with bass. Check together with bass, so that they would merge into each other."
       },
       {
-        "low": 1000,
-        "high": 2000,
-        "title": "Honk",
-        "description": "You may eliminate many of the harsh or “honky” characteristics of the tone with a centered, wide cut within this range."
+        "point": 500,
+        "title": "Low Mids",
+        "description": "Cut around snare to prevent overlap."
+      },
+      {
+        "point": 800,
+        "title": "Overtones",
+        "description": "Cut to reduce overtones. Boost to increase size."
+      },
+      {
+        "point": 1500,
+        "title": "Crunch",
+        "description": "Boost to increase color and crunch. Cut to reduce dullness of guitar. "
       },
       {
         "low": 3000,
-        "high": 10000,
+        "high": 5000,
+        "title": "Attack",
+        "description": "Boost to add attack. Cut to clean up hiss in distorted guitars. Check with vocals not to mask it."
+      },
+      {
+        "point": 5000,
+        "title": "Presence",
+        "description": "Boost to increase brightness and presence. Cut to make guitar further in the mix."
+      },
+      {
+        "point": 7000,
+        "title": "Harshness",
+        "description": "Cut to reduce harshness. Boost to accentuate attack."
+      },
+      {
+        "point": 8000,
+        "title": "Brilliance",
+        "description": "Boost to add brilliance."
+      },
+      {
+        "low": 10000,
+        "high": 20000,
         "title": "Presence/Attack/Brightness",
-        "description": "Boost around 3 kHz for extra attack on solo guitars but attenuate on riff guitar parts. Attenuate 3-8 kHz band if the vocal is present. Boost 10-13 kHz range with high shelf for extra brightness."
+        "description": "Cut or filter to reduce fizz in distorted guitars. Boost to lift acoustic guitar in the mix. Too much may sound harsh and brittle. Too little can sound dark and dull. Try to make it clean and shiny.`````````````````````````"
       }
     ]
   },
@@ -251,7 +289,7 @@
     "name": "Ac. Guitar",
     "ranges": [
       {
-        "low": 25,
+        "low": 20,
         "high": 70,
         "title": "Low End Rumble",
         "description": "When mic’ing an acoustic, you’ll often find many of the boomy, explosive low-end tones within this range. Although a bit of it can add warmth and fullness, it will often cloud up a mix with a full band and can typically be removed with high-pass filter."
@@ -286,7 +324,7 @@
     "name": "Synth",
     "ranges": [
       {
-        "low": 25,
+        "low": 20,
         "high": 160,
         "title": "Low End Rumble",
         "description": "Highpass 80-160 Hz to taste and use good sound design judgement."
@@ -327,7 +365,7 @@
     "name": "Vocals",
     "ranges": [
       {
-        "low": 25,
+        "low": 20,
         "high": 100,
         "title": "Low End Rumble",
         "description": "Most sounds in this range are garbage, whether it be noise from handling the mic, vibrations from the floor or air conditioning units. Highpass up to 100-120 Hz to clean things up (note that “P” plosives reside around 90-120Hz as a general rule)."
